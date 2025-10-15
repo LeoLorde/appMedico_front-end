@@ -8,8 +8,8 @@ Future<Map> createClient(ClientModel clientModel) async {
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
       "username": clientModel.username,
-      "dataDeNascimento": clientModel.dataDeNascimento.toString(),
-      "gender": clientModel.gender,
+      "dataDeNascimento": clientModel.dataFormatada(),
+      "genero": clientModel.gender,
       "senha": clientModel.senha,
       "cpf": clientModel.cpf,
       "email": clientModel.email,

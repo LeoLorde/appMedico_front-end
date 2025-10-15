@@ -17,6 +17,10 @@ class ClientModel {
     required this.email,
   });
 
+  String dataFormatada() {
+    return DateFormat('yyyy-MM-dd').format(dataDeNascimento);
+  }
+
   Map<String, dynamic> toMap() {
     final dataFormatada = DateFormat('yyyy-MM-dd').format(dataDeNascimento);
 

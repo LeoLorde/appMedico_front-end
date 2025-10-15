@@ -1,4 +1,8 @@
+import 'package:app_med/connections/create_client.dart';
+import 'package:app_med/models/client_model.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,9 +14,22 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController cpfController = TextEditingController();
   final TextEditingController generoController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController dataNascimentoController =
-      TextEditingController();
+  DateTime? selectedDate;
   final TextEditingController senhaController = TextEditingController();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +54,21 @@ class _HomeScreenState extends State<HomeScreen> {
               controller: emailController,
               decoration: const InputDecoration(label: Text('Email')),
             ),
-            TextField(
-              controller: dataNascimentoController,
-              decoration: const InputDecoration(
-                label: Text('Data de Nascimento'),
+            InkWell(
+              onTap: () => _selectDate(context),
+              child: InputDecorator(
+                decoration: const InputDecoration(
+                  label: Text('Data de Nascimento'),
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                child: Text(
+                  selectedDate != null
+                      ? DateFormat('yyyy-MM-dd').format(selectedDate!)
+                      : 'Selecione a data',
+                  style: TextStyle(
+                    color: selectedDate != null ? Colors.black : Colors.grey,
+                  ),
+                ),
               ),
             ),
             TextField(
@@ -50,13 +78,30 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                print('Nome: ${nomeController.text}');
-                print('CPF: ${cpfController.text}');
-                print('Gênero: ${generoController.text}');
-                print('Email: ${emailController.text}');
-                print('Data de Nascimento: ${dataNascimentoController.text}');
-                print('Senha: ${senhaController.text}');
+              onPressed: () async {
+                if (selectedDate == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                        'Por favor, selecione a data de nascimento',
+                      ),
+                    ),
+                  );
+                  return;
+                }
+
+                final client = ClientModel(
+                  username: nomeController.text,
+                  dataDeNascimento: selectedDate!,
+                  gender: generoController.text,
+                  senha: senhaController.text,
+                  cpf: cpfController.text,
+                  email: emailController.text,
+                );
+
+                final response = await createClient(client);
+
+                print('Cliente criado: ${client.toMap()}');
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
               child: const Text('Criar'),

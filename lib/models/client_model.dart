@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ClientModel {
   String username;
   DateTime dataDeNascimento;
@@ -16,9 +18,11 @@ class ClientModel {
   });
 
   Map<String, dynamic> toMap() {
+    final dataFormatada = DateFormat('yyyy-MM-dd').format(dataDeNascimento);
+
     return {
       'username': username,
-      'dataDeNascimento': dataDeNascimento.toIso8601String(),
+      'dataDeNascimento': dataFormatada,
       'gender': gender,
       'senha': senha,
       'cpf': cpf,

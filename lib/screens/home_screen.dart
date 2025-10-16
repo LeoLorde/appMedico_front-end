@@ -1,7 +1,6 @@
 import 'package:app_med/connections/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {

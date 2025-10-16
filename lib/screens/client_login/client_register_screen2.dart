@@ -1,64 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
-class ClientRegisterScreen extends StatefulWidget {
+class ClientRegisterScreen2 extends StatefulWidget {
   @override
-  State<ClientRegisterScreen> createState() => _ClientRegisterScreenState();
+  State<ClientRegisterScreen2> createState() => _ClientRegisterScreen2State();
 }
 
-class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
-  DateTime? selectedDate;
-  String? selectedGender;
-
-  Widget _buildGenderButton(String gender) {
-    final bool isSelected = selectedGender == gender;
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedGender = gender;
-            });
-          },
-          child: Container(
-            height: 45,
-            decoration: BoxDecoration(
-              color: isSelected ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.black, width: 1),
-            ),
-            child: Center(
-              child: Text(
-                gender,
-                style: GoogleFonts.inter(
-                  color: isSelected ? Colors.white : Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
+class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +52,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Data de Nascimento',
+                              'Email',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -112,39 +60,21 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            InkWell(
-                              onTap: () => _selectDate(context),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  suffixIcon: Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.black,
-                                  ),
+                            TextField(
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                hintText: 'exemplo@gmail.com',
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
                                 ),
-                                child: Text(
-                                  selectedDate != null
-                                      ? DateFormat(
-                                          'dd/MM/yyyy',
-                                        ).format(selectedDate!)
-                                      : 'Selecione a data',
-                                  style: GoogleFonts.inter(
-                                    color: selectedDate != null
-                                        ? Colors.black
-                                        : Colors.black,
-                                    fontSize: 16,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
                                   ),
                                 ),
                               ),
@@ -160,7 +90,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'CPF',
+                              'Senha',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -169,9 +99,9 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                             ),
                             SizedBox(height: 10),
                             TextField(
-                              obscureText: false,
+                              obscureText: true,
                               decoration: InputDecoration(
-                                hintText: '123.456.789-00',
+                                hintText: '*********',
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: EdgeInsets.symmetric(
@@ -197,7 +127,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Gênero',
+                              'Confirmar Senha',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -205,13 +135,24 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _buildGenderButton('Masculino'),
-                                _buildGenderButton('Feminino'),
-                                _buildGenderButton('Indefinido'),
-                              ],
+                            TextField(
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                hintText: '*********',
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
+                                    width: 1,
+                                  ),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -222,12 +163,12 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ClientRegisterScreen(),
+                              builder: (context) => ClientRegisterScreen2(),
                             ),
                           );
                         },
                         child: Text(
-                          'Continuar',
+                          'Cadastrar',
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             color: Colors.white,

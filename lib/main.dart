@@ -1,4 +1,3 @@
-import 'package:app_med/screens/home_screen.dart';
 import 'package:app_med/screens/init_screen.dart';
 import 'package:flutter/material.dart';
 

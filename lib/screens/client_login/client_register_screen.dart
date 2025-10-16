@@ -1,13 +1,65 @@
-import 'package:app_med/screens/client_register_screen.dart';
+import 'package:app_med/screens/client_login/client_register_screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
-class ClientLoginScreen extends StatefulWidget {
+class ClientRegisterScreen extends StatefulWidget {
   @override
-  State<ClientLoginScreen> createState() => _ClientLoginScreenState();
+  State<ClientRegisterScreen> createState() => _ClientRegisterScreenState();
 }
 
-class _ClientLoginScreenState extends State<ClientLoginScreen> {
+class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
+  DateTime? selectedDate;
+  String? selectedGender;
+
+  Widget _buildGenderButton(String gender) {
+    final bool isSelected = selectedGender == gender;
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: GestureDetector(
+          onTap: () {
+            setState(() {
+              selectedGender = gender;
+            });
+          },
+          child: Container(
+            height: 45,
+            decoration: BoxDecoration(
+              color: isSelected ? Colors.black : Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: Colors.black, width: 1),
+            ),
+            child: Center(
+              child: Text(
+                gender,
+                style: GoogleFonts.inter(
+                  color: isSelected ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +92,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                         ),
                       ),
                       Text(
-                        'Faça Login na sua conta',
+                        'Faça um cadatro',
                         style: GoogleFonts.inter(
                           color: Colors.black,
                           fontSize: 20,
@@ -53,7 +105,63 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Email',
+                              'Data de Nascimento',
+                              style: GoogleFonts.inter(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            InkWell(
+                              onTap: () => _selectDate(context),
+                              child: InputDecorator(
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  suffixIcon: Icon(
+                                    Icons.calendar_today,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                child: Text(
+                                  selectedDate != null
+                                      ? DateFormat(
+                                          'dd/MM/yyyy',
+                                        ).format(selectedDate!)
+                                      : 'Selecione a data',
+                                  style: GoogleFonts.inter(
+                                    color: selectedDate != null
+                                        ? Colors.black
+                                        : Colors.black,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 20),
+                      Container(
+                        width: 350,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'CPF',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -62,8 +170,9 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                             ),
                             SizedBox(height: 10),
                             TextField(
+                              obscureText: false,
                               decoration: InputDecoration(
-                                hintText: 'exemplo@gmail.com',
+                                hintText: '123.456.789-00',
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: EdgeInsets.symmetric(
@@ -89,7 +198,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Senha',
+                              'Gênero',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -97,33 +206,29 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: '********',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
-                                ),
-                              ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                _buildGenderButton('Masculino'),
+                                _buildGenderButton('Feminino'),
+                                _buildGenderButton('Indefinido'),
+                              ],
                             ),
                           ],
                         ),
                       ),
                       SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClientRegisterScreen2(),
+                            ),
+                          );
+                        },
                         child: Text(
-                          'Login',
+                          'Continuar',
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             color: Colors.white,
@@ -137,33 +242,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientRegisterScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'Criar Conta',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            side: BorderSide(width: 1, color: Colors.black),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 90),
+                      SizedBox(height: 60),
                       GestureDetector(
                         onTap: () {},
                         child: Text(

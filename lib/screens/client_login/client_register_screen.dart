@@ -1,3 +1,4 @@
+import 'package:app_med/screens/client_login/client_login_screen.dart';
 import 'package:app_med/screens/client_login/client_register_screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -244,9 +245,16 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                       ),
                       SizedBox(height: 60),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClientLoginScreen(),
+                            ),
+                          );
+                        },
                         child: Text(
-                          'É um profissional? Clique Aqui',
+                          'Já tem uma conta? Clique Aqui',
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             color: Colors.black,

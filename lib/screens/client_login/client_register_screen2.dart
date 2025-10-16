@@ -1,3 +1,4 @@
+import 'package:app_med/screens/client_login/client_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -159,14 +160,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                       ),
                       SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientRegisterScreen2(),
-                            ),
-                          );
-                        },
+                        onPressed: () {},
                         child: Text(
                           'Cadastrar',
                           style: GoogleFonts.inter(
@@ -184,9 +178,16 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                       ),
                       SizedBox(height: 60),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClientLoginScreen(),
+                            ),
+                          );
+                        },
                         child: Text(
-                          'É um profissional? Clique Aqui',
+                          'Já tem uma conta? Clique Aqui',
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             color: Colors.black,

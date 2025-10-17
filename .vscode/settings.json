@@ -1,5 +1,4 @@
 {
-  // 🗂️ Ocultar pastas desnecessárias no Explorer
   "files.exclude": {
     "**/ios": true,
     "**/android": true,

@@ -27,11 +27,12 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.network(
-                        'https://cdn-icons-png.flaticon.com/512/3774/3774299.png',
-                        height: 100,
-                        width: 100,
+                      Image.asset(
+                        'assets/images/logo.png',
+                        width: 120,
+                        height: 120,
                       ),
+                      SizedBox(height: 20),
                       Text(
                         'Bem-vindo!',
                         style: GoogleFonts.inter(

@@ -1,7 +1,7 @@
-import 'package:app_med/connections/create_client.dart';
-import 'package:app_med/models/client_model.dart';
+import 'package:app_med/screens/calendar_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:app_med/widgets/navbar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,104 +9,108 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController nomeController = TextEditingController();
-  final TextEditingController cpfController = TextEditingController();
-  final TextEditingController generoController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  DateTime? selectedDate;
-  final TextEditingController senhaController = TextEditingController();
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
+  void _onItemTapped(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => CalendarScreen()),
+        );
+        break;
+      case 2:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => NotificationsScreen()),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => SettingsScreen()),
+        );
+        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: nomeController,
-              decoration: const InputDecoration(label: Text('Nome')),
-            ),
-            TextField(
-              controller: cpfController,
-              decoration: const InputDecoration(label: Text('CPF')),
-            ),
-            TextField(
-              controller: generoController,
-              decoration: const InputDecoration(label: Text('Gênero')),
-            ),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(label: Text('Email')),
-            ),
-            InkWell(
-              onTap: () => _selectDate(context),
-              child: InputDecorator(
-                decoration: const InputDecoration(
-                  label: Text('Data de Nascimento'),
-                  suffixIcon: Icon(Icons.calendar_today),
-                ),
-                child: Text(
-                  selectedDate != null
-                      ? DateFormat('yyyy-MM-dd').format(selectedDate!)
-                      : 'Selecione a data',
-                  style: TextStyle(
-                    color: selectedDate != null ? Colors.black : Colors.grey,
+      backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(190),
+        child: Container(
+          color: Colors.black,
+          padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 25),
+                      Text(
+                        'Bom dia!',
+                        style: GoogleFonts.inter(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Text(
+                        'Maurício Reisdoefer',
+                        style: GoogleFonts.inter(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  SizedBox(width: 80), // empurra o avatar pra direita
+                  const CircleAvatar(
+                    radius: 25,
+                    backgroundImage: AssetImage('assets/images/logo.png'),
+                  ),
+                ],
               ),
-            ),
-            TextField(
-              controller: senhaController,
-              decoration: const InputDecoration(label: Text('Senha')),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                if (selectedDate == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'Por favor, selecione a data de nascimento',
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1C1C1E),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.search, color: Colors.white),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        'Procure doutores, especialidade...',
+                        style: GoogleFonts.inter(
+                          color: Colors.white.withOpacity(0.7),
+                          fontSize: 16,
+                        ),
                       ),
                     ),
-                  );
-                  return;
-                }
-
-                final client = ClientModel(
-                  username: nomeController.text,
-                  dataDeNascimento: selectedDate!,
-                  gender: generoController.text,
-                  senha: senhaController.text,
-                  cpf: cpfController.text,
-                  email: emailController.text,
-                );
-
-                final response = await createClient(client);
-
-                print('Cliente criado: ${client.toMap()}');
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-              child: const Text('Criar'),
-            ),
-          ],
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
+      ),
+      bottomNavigationBar: Navbar(
+        selectedIndex: 0,
+        onItemTapped: (index) => _onItemTapped(context, index),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:app_med/screens/calendar_screen.dart';
+import 'package:app_med/screens/search_doctor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app_med/widgets/navbar.dart';
@@ -14,10 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         break;
       case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => CalendarScreen()),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => CalendarScreen()));
         break;
       case 2:
       case 3:
@@ -44,13 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 25),
-                      Text(
-                        'Bom dia!',
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
+                      Text('Bom dia!', style: GoogleFonts.inter(color: Colors.white, fontSize: 20)),
                       Text(
                         'Maurício Reisdoefer',
                         style: GoogleFonts.inter(
@@ -70,10 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1C1C1E),
                   borderRadius: BorderRadius.circular(20),
@@ -83,11 +72,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Icon(Icons.search, color: Colors.white),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: Text(
-                        'Procure doutores, especialidade...',
-                        style: GoogleFonts.inter(
-                          color: Colors.white.withOpacity(0.7),
-                          fontSize: 16,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SearchDoctorScreen()),
+                          );
+                        },
+                        child: Text(
+                          'Procure doutores, especialidade...',
+                          style: GoogleFonts.inter(
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),

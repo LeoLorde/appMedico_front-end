@@ -4,11 +4,8 @@ class Navbar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const Navbar({
-    Key? key,
-    required this.selectedIndex,
-    required this.onItemTapped,
-  }) : super(key: key);
+  const Navbar({Key? key, required this.selectedIndex, required this.onItemTapped})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +13,7 @@ class Navbar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: Offset(0, -2),
-          ),
+          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: Offset(0, -2)),
         ],
       ),
       child: BottomNavigationBar(
@@ -35,23 +28,23 @@ class Navbar extends StatelessWidget {
         showUnselectedLabels: false,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined, size: 35),
+            activeIcon: Icon(Icons.home, size: 35),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today_outlined),
-            activeIcon: Icon(Icons.calendar_today),
+            icon: Icon(Icons.calendar_today_outlined, size: 35),
+            activeIcon: Icon(Icons.calendar_today, size: 35),
             label: 'Calendário',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_none),
-            activeIcon: Icon(Icons.notifications),
+            icon: Icon(Icons.notifications_none, size: 35),
+            activeIcon: Icon(Icons.notifications, size: 35),
             label: 'Notificações',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            activeIcon: Icon(Icons.settings),
+            icon: Icon(Icons.settings_outlined, size: 35),
+            activeIcon: Icon(Icons.settings, size: 35),
             label: 'Configurações',
           ),
         ],

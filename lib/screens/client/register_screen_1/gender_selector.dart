@@ -10,6 +10,7 @@ class GenderSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 5.0,
       children: [
         GenderButton(
           label: 'Masculino',
@@ -30,7 +31,6 @@ class GenderSelector extends StatelessWidget {
           onTap: () => onSelectGender('Indefinido'),
         ),
       ],
-      spacing: 5.0,
     );
   }
 }

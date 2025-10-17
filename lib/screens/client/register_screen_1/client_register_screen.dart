@@ -1,6 +1,7 @@
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/client/client_register_screen2.dart';
+import 'package:app_med/screens/client/register_screen_1/date_picker_field.dart';
 import 'package:app_med/screens/client/register_screen_1/gender_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,20 +19,6 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
   ClientModel client = ClientModel();
 
   TextEditingController cpfController = TextEditingController();
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
 
   void _onContinuePressed() {
     String cpf = cpfController.text;
@@ -107,32 +94,13 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            InkWell(
-                              onTap: () => _selectDate(context),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(color: Colors.black, width: 1),
-                                  ),
-                                  suffixIcon: Icon(Icons.calendar_today, color: Colors.black),
-                                ),
-                                child: Text(
-                                  selectedDate != null
-                                      ? DateFormat('dd/MM/yyyy').format(selectedDate!)
-                                      : 'Selecione a data',
-                                  style: GoogleFonts.inter(
-                                    color: selectedDate != null ? Colors.black : Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
+                            DatePickerField(
+                              selectedDate: selectedDate,
+                              onDateSelected: (DateTime newDate) {
+                                setState(() {
+                                  selectedDate = newDate;
+                                });
+                              },
                             ),
                           ],
                         ),

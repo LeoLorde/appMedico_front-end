@@ -20,17 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
         );
         break;
       case 2:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => NotificationsScreen()),
-        );
-        break;
       case 3:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => SettingsScreen()),
-        );
-        break;
     }
   }
 

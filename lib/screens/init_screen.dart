@@ -1,4 +1,4 @@
-import 'package:app_med/screens/client_login/client_login_screen.dart';
+import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/doctor_login/doctor_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,9 +39,7 @@ class _InitScreenState extends State<InitScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => ClientLoginScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => ClientLoginScreen()),
                   );
                 },
                 child: Card(
@@ -67,18 +65,11 @@ class _InitScreenState extends State<InitScreen> {
                                 color: Colors.black,
                               ),
                             ),
-                            Text(
-                              'Marcar horário',
-                              style: TextStyle(color: Colors.black),
-                            ),
+                            Text('Marcar horário', style: TextStyle(color: Colors.black)),
                           ],
                         ),
                         Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                          color: Colors.black,
-                        ),
+                        Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black),
                       ],
                     ),
                   ),
@@ -92,9 +83,7 @@ class _InitScreenState extends State<InitScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => DoctorLoginScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => DoctorLoginScreen()),
                   );
                 },
                 child: Card(
@@ -120,18 +109,11 @@ class _InitScreenState extends State<InitScreen> {
                                 color: Colors.black,
                               ),
                             ),
-                            Text(
-                              'Gerenciar horários',
-                              style: TextStyle(color: Colors.black),
-                            ),
+                            Text('Gerenciar horários', style: TextStyle(color: Colors.black)),
                           ],
                         ),
                         Spacer(),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 16,
-                          color: Colors.black,
-                        ),
+                        Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black),
                       ],
                     ),
                   ),

@@ -1,4 +1,4 @@
-import 'package:app_med/screens/client_login/client_login_screen.dart';
+import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -26,11 +26,7 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 120,
-                        height: 120,
-                      ),
+                      Image.asset('assets/images/logo.png', width: 120, height: 120),
                       SizedBox(height: 20),
                       Text(
                         'Bem-vindo!',
@@ -42,10 +38,7 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                       ),
                       Text(
                         'Faça um cadatro',
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
+                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
                       ),
                       SizedBox(height: 40),
                       Container(
@@ -68,16 +61,10 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                                 hintText: 'exemplo@gmail.com',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -106,16 +93,10 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                                 hintText: '*********',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -143,16 +124,10 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                                 hintText: '*********',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -164,17 +139,12 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                         onPressed: () {},
                         child: Text(
                           'Cadastrar',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                       SizedBox(height: 60),
@@ -182,9 +152,7 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientLoginScreen(),
-                            ),
+                            MaterialPageRoute(builder: (context) => ClientLoginScreen()),
                           );
                         },
                         child: Text(

@@ -14,10 +14,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         break;
       case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => CalendarScreen()),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => CalendarScreen()));
         break;
       case 2:
       case 3:
@@ -44,13 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 25),
-                      Text(
-                        'Bom dia!',
-                        style: GoogleFonts.inter(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
+                      Text('Bom dia!', style: GoogleFonts.inter(color: Colors.white, fontSize: 20)),
                       Text(
                         'Maurício Reisdoefer',
                         style: GoogleFonts.inter(
@@ -70,10 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 12,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: const Color(0xFF1C1C1E),
                   borderRadius: BorderRadius.circular(20),

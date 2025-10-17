@@ -1,4 +1,4 @@
-import 'package:app_med/screens/client_login/client_register_screen2.dart';
+import 'package:app_med/screens/client/client_register_screen2.dart';
 import 'package:app_med/screens/doctor_login/doctor_login_screen.dart';
 import 'package:app_med/screens/doctor_login/doctor_register_screen2.dart';
 import 'package:flutter/material.dart';
@@ -45,11 +45,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 120,
-                        height: 120,
-                      ),
+                      Image.asset('assets/images/logo.png', width: 120, height: 120),
                       SizedBox(height: 20),
                       Text(
                         'Bem-vindo!',
@@ -61,10 +57,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                       ),
                       Text(
                         'Faça um cadatro',
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
+                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
                       ),
                       SizedBox(height: 40),
                       Container(
@@ -87,16 +80,10 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                                 hintText: 'Luísio de Azevedo',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -130,26 +117,16 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
+                                    borderSide: BorderSide(color: Colors.black, width: 1),
                                   ),
-                                  suffixIcon: Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.black,
-                                  ),
+                                  suffixIcon: Icon(Icons.calendar_today, color: Colors.black),
                                 ),
                                 child: Text(
                                   selectedDate != null
-                                      ? DateFormat(
-                                          'dd/MM/yyyy',
-                                        ).format(selectedDate!)
+                                      ? DateFormat('dd/MM/yyyy').format(selectedDate!)
                                       : 'Selecione a data',
                                   style: GoogleFonts.inter(
-                                    color: selectedDate != null
-                                        ? Colors.black
-                                        : Colors.black,
+                                    color: selectedDate != null ? Colors.black : Colors.black,
                                     fontSize: 16,
                                   ),
                                 ),
@@ -179,16 +156,10 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                                 hintText: 'Dentista',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -200,24 +171,17 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorRegisterScreen2(),
-                            ),
+                            MaterialPageRoute(builder: (context) => DoctorRegisterScreen2()),
                           );
                         },
                         child: Text(
                           'Continuar',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                       SizedBox(height: 60),
@@ -225,9 +189,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => DoctorLoginScreen(),
-                            ),
+                            MaterialPageRoute(builder: (context) => DoctorLoginScreen()),
                           );
                         },
                         child: Text(

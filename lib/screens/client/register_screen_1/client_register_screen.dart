@@ -1,6 +1,7 @@
 import 'package:app_med/models/client_model.dart';
-import 'package:app_med/screens/client_login/client_login_screen.dart';
-import 'package:app_med/screens/client_login/client_register_screen2.dart';
+import 'package:app_med/screens/client/client_login_screen.dart';
+import 'package:app_med/screens/client/client_register_screen2.dart';
+import 'package:app_med/screens/client/register_screen_1/gender_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -17,40 +18,6 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
   ClientModel client = ClientModel();
 
   TextEditingController cpfController = TextEditingController();
-
-  Widget _buildGenderButton(String gender) {
-    final bool isSelected = selectedGender == gender;
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              selectedGender = gender;
-            });
-          },
-          child: Container(
-            height: 45,
-            decoration: BoxDecoration(
-              color: isSelected ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.black, width: 1),
-            ),
-            child: Center(
-              child: Text(
-                gender,
-                style: GoogleFonts.inter(
-                  color: isSelected ? Colors.white : Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -217,13 +184,13 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                _buildGenderButton('Masculino'),
-                                _buildGenderButton('Feminino'),
-                                _buildGenderButton('Indefinido'),
-                              ],
+                            GenderSelector(
+                              selectedGender: selectedGender,
+                              onSelectGender: (gender) {
+                                setState(() {
+                                  selectedGender = gender;
+                                });
+                              },
                             ),
                           ],
                         ),

@@ -1,5 +1,5 @@
 import 'package:app_med/connections/login_client.dart';
-import 'package:app_med/screens/client/register_screen_1/client_register_screen.dart';
+import 'package:app_med/screens/client/client_register_screen.dart';
 import 'package:app_med/screens/doctor_login/doctor_login_screen.dart';
 import 'package:app_med/screens/home_screen.dart';
 import 'package:flutter/material.dart';

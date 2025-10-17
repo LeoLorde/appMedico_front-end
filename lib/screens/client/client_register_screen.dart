@@ -1,8 +1,9 @@
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/client/client_register_screen2.dart';
-import 'package:app_med/screens/client/register_screen_1/date_picker_field.dart';
-import 'package:app_med/screens/client/register_screen_1/gender_selector.dart';
+import 'package:app_med/widgets/date_picker_field.dart';
+import 'package:app_med/widgets/forms_header.dart';
+import 'package:app_med/widgets/gender_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -67,18 +68,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                     children: [
                       Image.asset('assets/images/logo.png', width: 120, height: 120),
                       SizedBox(height: 20),
-                      Text(
-                        'Bem-vindo!',
-                        style: GoogleFonts.inter(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'Faça um cadastro',
-                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
-                      ),
+                      FormsHeader(title: "Bem-vindo!", subtitle: "Faça um cadastro"),
                       SizedBox(height: 40),
                       Container(
                         width: 350,

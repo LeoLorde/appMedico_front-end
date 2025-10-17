@@ -4,11 +4,8 @@ class Navbar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
 
-  const Navbar({
-    Key? key,
-    required this.selectedIndex,
-    required this.onItemTapped,
-  }) : super(key: key);
+  const Navbar({Key? key, required this.selectedIndex, required this.onItemTapped})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +13,7 @@ class Navbar extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: Offset(0, -2),
-          ),
+          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: Offset(0, -2)),
         ],
       ),
       child: BottomNavigationBar(

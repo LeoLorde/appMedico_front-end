@@ -73,9 +73,16 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
         : 'Data não selecionada';
     String genero = selectedGender ?? 'Nenhum gênero selecionado';
 
+    if (genero == 'Masculino') {
+      client.gender = 'MAN';
+    } else if (genero == 'Feminino') {
+      client.gender = 'WOMAN';
+    } else if (genero == 'Indefinido') {
+      client.gender = 'NONE';
+    }
+
     client.cpf = cpf;
     client.dataDeNascimento = DateTime.tryParse(dataNascimento);
-    client.gender = genero;
 
     print('CPF: $cpf');
     print('Data de Nascimento: $dataNascimento');
@@ -104,11 +111,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 120,
-                        height: 120,
-                      ),
+                      Image.asset('assets/images/logo.png', width: 120, height: 120),
                       SizedBox(height: 20),
                       Text(
                         'Bem-vindo!',

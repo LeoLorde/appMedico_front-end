@@ -4,7 +4,7 @@ import 'dart:convert';
 
 Future<Map> createClient(ClientModel clientModel) async {
   final response = await http.post(
-    Uri.parse("http://10.0.29.229:5000/client/create"),
+    Uri.parse("http://192.168.1.10:5000/client/create"),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
       "username": clientModel.username,

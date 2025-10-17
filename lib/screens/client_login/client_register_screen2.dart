@@ -1,3 +1,4 @@
+import 'package:app_med/connections/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client_login/client_login_screen.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     clientModel.email = emailController.text.trim();
     clientModel.senha = passwordController.text;
     print(clientModel.toMap());
+    createClient(clientModel);
   }
 
   Widget _buildTextField(

@@ -11,5 +11,5 @@ Future<Map> loginClient({required String email, required String senha}) async {
     return {"Error": "erro na consulta"};
   }
   final decoded = jsonDecode(response.body);
-  return {"acess_token": decoded["acess_token"]};
+  return {"access_token": decoded["access_token"]};
 }

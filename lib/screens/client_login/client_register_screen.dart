@@ -14,7 +14,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
   DateTime? selectedDate;
   String? selectedGender;
 
-  ClientModel client;
+  ClientModel client = ClientModel();
 
   TextEditingController cpfController = TextEditingController();
 
@@ -64,6 +64,26 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
         selectedDate = picked;
       });
     }
+  }
+
+  void _onContinuePressed() {
+    String cpf = cpfController.text;
+    String dataNascimento = selectedDate != null
+        ? DateFormat('yyyy-MM-dd').format(selectedDate!)
+        : 'Data não selecionada';
+    String genero = selectedGender ?? 'Nenhum gênero selecionado';
+
+    client.cpf = cpf;
+    client.dataDeNascimento = DateTime.tryParse(dataNascimento);
+    client.gender = genero;
+
+    print('CPF: $cpf');
+    print('Data de Nascimento: $dataNascimento');
+    print('Gênero: $genero');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ClientRegisterScreen2(clientModel: client)),
+    );
   }
 
   @override
@@ -207,19 +227,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                       SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () {
-                          String cpf = cpfController.text;
-                          String dataNascimento = selectedDate != null
-                              ? DateFormat('yyyy-MM-dd').format(selectedDate!)
-                              : 'Data não selecionada';
-                          String genero = selectedGender ?? 'Nenhum gênero selecionado';
-
-                          print('CPF: $cpf');
-                          print('Data de Nascimento: $dataNascimento');
-                          print('Gênero: $genero');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ClientRegisterScreen2()),
-                          );
+                          _onContinuePressed();
                         },
                         child: Text(
                           'Continuar',

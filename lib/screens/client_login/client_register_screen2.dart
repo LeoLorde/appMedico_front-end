@@ -1,13 +1,45 @@
+import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client_login/client_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ClientRegisterScreen2 extends StatefulWidget {
+  final ClientModel? clientModel;
+
+  const ClientRegisterScreen2({Key? key, this.clientModel}) : super(key: key);
+
   @override
   State<ClientRegisterScreen2> createState() => _ClientRegisterScreen2State();
 }
 
 class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
+  late ClientModel clientModel;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    clientModel = widget.clientModel ?? ClientModel();
+
+    emailController.text = clientModel.email ?? '';
+    passwordController.text = clientModel.senha ?? '';
+    confirmPasswordController.text = clientModel.senha ?? '';
+  }
+
+  void _onRegisterPressed() {
+    if (passwordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("As senhas não coincidem")));
+      return;
+    }
+    clientModel.email = emailController.text.trim();
+    clientModel.senha = passwordController.text;
+    print(clientModel.toMap());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,11 +73,8 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                         ),
                       ),
                       Text(
-                        'Faça um cadatro',
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
+                        'Faça um cadastro',
+                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
                       ),
                       SizedBox(height: 40),
                       Container(
@@ -63,28 +92,22 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                             ),
                             SizedBox(height: 10),
                             TextField(
-                              obscureText: false,
+                              controller: emailController,
+                              keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 hintText: 'exemplo@gmail.com',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-
                       SizedBox(height: 20),
                       Container(
                         width: 350,
@@ -101,21 +124,16 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                             ),
                             SizedBox(height: 10),
                             TextField(
+                              controller: passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 hintText: '*********',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -138,21 +156,16 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                             ),
                             SizedBox(height: 10),
                             TextField(
+                              controller: confirmPasswordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 hintText: '*********',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -161,20 +174,15 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                       ),
                       SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _onRegisterPressed,
                         child: Text(
                           'Cadastrar',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                       SizedBox(height: 60),
@@ -182,9 +190,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientLoginScreen(),
-                            ),
+                            MaterialPageRoute(builder: (context) => ClientLoginScreen()),
                           );
                         },
                         child: Text(

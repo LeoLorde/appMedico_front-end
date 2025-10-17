@@ -1,3 +1,4 @@
+import 'package:app_med/connections/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client_login/client_login_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class ClientRegisterScreen2 extends StatefulWidget {
 
 class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
   late ClientModel clientModel;
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
@@ -23,6 +25,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     super.initState();
     clientModel = widget.clientModel ?? ClientModel();
 
+    usernameController.text = clientModel.username ?? '';
     emailController.text = clientModel.email ?? '';
     passwordController.text = clientModel.senha ?? '';
     confirmPasswordController.text = clientModel.senha ?? '';
@@ -35,9 +38,52 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
       ).showSnackBar(SnackBar(content: Text("As senhas não coincidem")));
       return;
     }
+    clientModel.username = usernameController.text.trim();
     clientModel.email = emailController.text.trim();
     clientModel.senha = passwordController.text;
     print(clientModel.toMap());
+    createClient(clientModel);
+  }
+
+  Widget _buildTextField(
+    String label,
+    TextEditingController controller, {
+    bool obscure = false,
+    TextInputType keyboardType = TextInputType.text,
+    String? hint,
+  }) {
+    return Container(
+      width: 350,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 8),
+          TextField(
+            controller: controller,
+            obscureText: obscure,
+            keyboardType: keyboardType,
+            decoration: InputDecoration(
+              hintText: hint,
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(color: Colors.black, width: 1),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -45,170 +91,76 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Align(
-                alignment: Alignment.center,
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: 40),
+              Image.asset('assets/images/logo.png', width: 120, height: 120),
+              SizedBox(height: 10),
+              Text(
+                'Bem-vindo!',
+                style: GoogleFonts.inter(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Text('Faça um cadastro', style: GoogleFonts.inter(color: Colors.black, fontSize: 18)),
+              SizedBox(height: 20),
+              _buildTextField('Nome', usernameController, hint: 'Seu nome de usuário'),
+              SizedBox(height: 12),
+              _buildTextField(
+                'Email',
+                emailController,
+                keyboardType: TextInputType.emailAddress,
+                hint: 'exemplo@gmail.com',
+              ),
+              SizedBox(height: 12),
+              _buildTextField('Senha', passwordController, obscure: true, hint: '*********'),
+              SizedBox(height: 12),
+              _buildTextField(
+                'Confirmar Senha',
+                confirmPasswordController,
+                obscure: true,
+                hint: '*********',
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _onRegisterPressed,
+                child: Text(
+                  'Cadastrar',
+                  style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  minimumSize: Size(350, 50),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                ),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ClientLoginScreen()),
+                  );
+                },
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 120),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        'assets/images/logo.png',
-                        width: 120,
-                        height: 120,
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        'Bem-vindo!',
-                        style: GoogleFonts.inter(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'Faça um cadastro',
-                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
-                      ),
-                      SizedBox(height: 40),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Email',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              controller: emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                hintText: 'exemplo@gmail.com',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Senha',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              controller: passwordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: '*********',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Confirmar Senha',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              controller: confirmPasswordController,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: '*********',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: _onRegisterPressed,
-                        child: Text(
-                          'Cadastrar',
-                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        ),
-                      ),
-                      SizedBox(height: 60),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ClientLoginScreen()),
-                          );
-                        },
-                        child: Text(
-                          'Já tem uma conta? Clique Aqui',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.black,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'Já tem uma conta? Clique Aqui',
+                    style: GoogleFonts.inter(
+                      fontSize: 18,
+                      color: Colors.black,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }

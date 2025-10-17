@@ -1,4 +1,5 @@
 {
+  // 🗂️ Ocultar pastas desnecessárias no Explorer
   "files.exclude": {
     "**/ios": true,
     "**/android": true,
@@ -6,6 +7,18 @@
     "**/windows": true,
     "**/web": true,
     "**/macos": true,
-    "**/build": true,
-  }
+    "**/build": true
+  },
+  "dart.analysisExcludedFolders": [
+    "build/"
+  ],
+  "editor.formatOnSave": true,
+  "dart.sdkPath": null,
+  "dart.flutterSdkPath": null,
+  "dart.previewFlutterUiGuides": true,
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "dart.previewFlutterUiGuidesCustomTracking": true,
+  "dart.lineLength": 100
 }

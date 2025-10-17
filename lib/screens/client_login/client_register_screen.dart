@@ -1,3 +1,4 @@
+import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client_login/client_login_screen.dart';
 import 'package:app_med/screens/client_login/client_register_screen2.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,10 @@ class ClientRegisterScreen extends StatefulWidget {
 class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
   DateTime? selectedDate;
   String? selectedGender;
+
+  ClientModel client;
+
+  TextEditingController cpfController = TextEditingController();
 
   Widget _buildGenderButton(String gender) {
     final bool isSelected = selectedGender == gender;
@@ -93,11 +98,8 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                         ),
                       ),
                       Text(
-                        'Faça um cadatro',
-                        style: GoogleFonts.inter(
-                          color: Colors.black,
-                          fontSize: 20,
-                        ),
+                        'Faça um cadastro',
+                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
                       ),
                       SizedBox(height: 40),
                       Container(
@@ -126,26 +128,16 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(
-                                      color: Colors.black,
-                                      width: 1,
-                                    ),
+                                    borderSide: BorderSide(color: Colors.black, width: 1),
                                   ),
-                                  suffixIcon: Icon(
-                                    Icons.calendar_today,
-                                    color: Colors.black,
-                                  ),
+                                  suffixIcon: Icon(Icons.calendar_today, color: Colors.black),
                                 ),
                                 child: Text(
                                   selectedDate != null
-                                      ? DateFormat(
-                                          'dd/MM/yyyy',
-                                        ).format(selectedDate!)
+                                      ? DateFormat('dd/MM/yyyy').format(selectedDate!)
                                       : 'Selecione a data',
                                   style: GoogleFonts.inter(
-                                    color: selectedDate != null
-                                        ? Colors.black
-                                        : Colors.black,
+                                    color: selectedDate != null ? Colors.black : Colors.black,
                                     fontSize: 16,
                                   ),
                                 ),
@@ -154,7 +146,6 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                           ],
                         ),
                       ),
-
                       SizedBox(height: 20),
                       Container(
                         width: 350,
@@ -171,21 +162,16 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                             ),
                             SizedBox(height: 10),
                             TextField(
+                              controller: cpfController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 hintText: '123.456.789-00',
                                 filled: true,
                                 fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
-                                ),
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                    width: 1,
-                                  ),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -221,26 +207,28 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                       SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: () {
+                          String cpf = cpfController.text;
+                          String dataNascimento = selectedDate != null
+                              ? DateFormat('yyyy-MM-dd').format(selectedDate!)
+                              : 'Data não selecionada';
+                          String genero = selectedGender ?? 'Nenhum gênero selecionado';
+
+                          print('CPF: $cpf');
+                          print('Data de Nascimento: $dataNascimento');
+                          print('Gênero: $genero');
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientRegisterScreen2(),
-                            ),
+                            MaterialPageRoute(builder: (context) => ClientRegisterScreen2()),
                           );
                         },
                         child: Text(
                           'Continuar',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.white,
-                          ),
+                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
                         ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
                       SizedBox(height: 60),
@@ -248,9 +236,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => ClientLoginScreen(),
-                            ),
+                            MaterialPageRoute(builder: (context) => ClientLoginScreen()),
                           );
                         },
                         child: Text(

@@ -1,28 +1,33 @@
 import 'package:intl/intl.dart';
 
 class ClientModel {
-  String username;
-  DateTime dataDeNascimento;
-  String gender;
-  String senha;
-  String cpf;
-  String email;
+  String? username;
+  DateTime? dataDeNascimento;
+  String? gender;
+  String? senha;
+  String? cpf;
+  String? email;
 
   ClientModel({
-    required this.username,
-    required this.dataDeNascimento,
-    required this.gender,
-    required this.senha,
-    required this.cpf,
-    required this.email,
+    this.username,
+    this.dataDeNascimento,
+    this.gender,
+    this.senha,
+    this.cpf,
+    this.email,
   });
 
-  String dataFormatada() {
-    return DateFormat('yyyy-MM-dd').format(dataDeNascimento);
+  String? dataFormatada() {
+    if (dataDeNascimento != null) {
+      return DateFormat('yyyy-MM-dd').format(dataDeNascimento!);
+    }
+    return null;
   }
 
   Map<String, dynamic> toMap() {
-    final dataFormatada = DateFormat('yyyy-MM-dd').format(dataDeNascimento);
+    final dataFormatada = dataDeNascimento != null
+        ? DateFormat('yyyy-MM-dd').format(dataDeNascimento!)
+        : null;
 
     return {
       'username': username,
@@ -36,12 +41,14 @@ class ClientModel {
 
   factory ClientModel.fromMap(Map<String, dynamic> map) {
     return ClientModel(
-      username: map['username'] ?? '',
-      dataDeNascimento: DateTime.parse(map['dataDeNascimento']),
-      gender: map['gender'] ?? '',
-      senha: map['senha'] ?? '',
-      cpf: map['cpf'] ?? '',
-      email: map['email'] ?? '',
+      username: map['username'],
+      dataDeNascimento: map['dataDeNascimento'] != null
+          ? DateTime.tryParse(map['dataDeNascimento'])
+          : null,
+      gender: map['gender'],
+      senha: map['senha'],
+      cpf: map['cpf'],
+      email: map['email'],
     );
   }
 }

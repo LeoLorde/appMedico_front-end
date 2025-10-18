@@ -3,7 +3,7 @@ import 'dart:convert';
 
 Future<Map> loginDoctor({required String email, required String senha}) async {
   final response = await http.post(
-    Uri.parse("http://192.168.0.8:5000/doctor/login"),
+    Uri.parse("http://192.168.1.10:5000/doctor/login"),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({"senha": senha, "email": email}),
   );

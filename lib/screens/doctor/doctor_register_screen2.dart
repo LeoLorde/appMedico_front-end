@@ -48,6 +48,9 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
       if (response.containsKey("Error")) {
         return;
       }
+      doctor.enderecoId = response["address"];
+      print(doctor.bio);
+      Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorRegisterScreen3()));
     }
 
     return Scaffold(

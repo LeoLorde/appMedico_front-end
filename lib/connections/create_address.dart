@@ -25,5 +25,5 @@ Future<Map> createAdress(EnderecoModel enderecoModel) async {
     return {"Error": "Erro na consulta"};
   }
 
-  return {"Message": "Deu boa"};
+  return {"Message": "Deu boa", "address": jsonDecode(response.body)["data"]["id"]};
 }

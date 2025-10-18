@@ -1,6 +1,7 @@
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_register_screen2.dart';
+import 'package:app_med/widgets/black_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -157,18 +158,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         ),
                       ),
                       SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Continuar',
-                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        ),
-                      ),
+                      BlackButton(label: "Continuar", onPressed: _handleContinue),
                       SizedBox(height: 60),
                       GestureDetector(
                         onTap: () {

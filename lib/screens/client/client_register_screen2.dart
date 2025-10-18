@@ -1,9 +1,12 @@
 import 'package:app_med/connections/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
+import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/black_button.dart';
+import 'package:app_med/widgets/forms_header.dart';
+import 'package:app_med/widgets/forms_text_field.dart';
+import 'package:app_med/widgets/link_text.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ClientRegisterScreen2 extends StatefulWidget {
   final ClientModel? clientModel;
@@ -46,47 +49,6 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     createClient(clientModel);
   }
 
-  Widget _buildTextField(
-    String label,
-    TextEditingController controller, {
-    bool obscure = false,
-    TextInputType keyboardType = TextInputType.text,
-    String? hint,
-  }) {
-    return Container(
-      width: 350,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.inter(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(height: 8),
-          TextField(
-            controller: controller,
-            obscureText: obscure,
-            keyboardType: keyboardType,
-            decoration: InputDecoration(
-              hintText: hint,
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(color: Colors.black, width: 1),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,55 +59,48 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
           child: Column(
             children: [
               SizedBox(height: 40),
-              Image.asset('assets/images/logo.png', width: 120, height: 120),
+              AppLogo(),
               SizedBox(height: 10),
-              Text(
-                'Bem-vindo!',
-                style: GoogleFonts.inter(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-              Text('Faça um cadastro', style: GoogleFonts.inter(color: Colors.black, fontSize: 18)),
+              FormsHeader(title: 'Bem-vindo!', subtitle: 'Faça um cadastro'),
               SizedBox(height: 20),
-              _buildTextField('Nome', usernameController, hint: 'Seu nome de usuário'),
-              SizedBox(height: 12),
-              _buildTextField(
-                'Email',
-                emailController,
-                keyboardType: TextInputType.emailAddress,
-                hint: 'exemplo@gmail.com',
+              FormsTextField(
+                label: 'Nome',
+                hintText: 'Seu nome de usuário',
+                controller: usernameController,
               ),
               SizedBox(height: 12),
-              _buildTextField('Senha', passwordController, obscure: true, hint: '*********'),
+              FormsTextField(
+                label: 'Email',
+                hintText: 'exemplo@gmail.com',
+                controller: emailController,
+              ),
               SizedBox(height: 12),
-              _buildTextField(
-                'Confirmar Senha',
-                confirmPasswordController,
-                obscure: true,
-                hint: '*********',
+              FormsTextField(
+                label: 'Senha',
+                hintText: '*********',
+                controller: passwordController,
+                obscureText: true,
+              ),
+              SizedBox(height: 12),
+              FormsTextField(
+                label: 'Confirmar Senha',
+                hintText: '*********',
+                controller: confirmPasswordController,
+                obscureText: true,
               ),
               SizedBox(height: 20),
               BlackButton(label: "Cadastrar", onPressed: _onRegisterPressed),
               Spacer(),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ClientLoginScreen()),
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Já tem uma conta? Clique Aqui',
-                    style: GoogleFonts.inter(
-                      fontSize: 18,
-                      color: Colors.black,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: LinkText(
+                  text: 'Já tem uma conta? Clique Aqui',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ClientLoginScreen()),
+                    );
+                  },
                 ),
               ),
             ],

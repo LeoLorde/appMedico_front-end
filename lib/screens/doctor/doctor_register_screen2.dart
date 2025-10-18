@@ -1,4 +1,5 @@
 import 'package:app_med/models/doctor_model.dart';
+import 'package:app_med/models/endereco_model.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_register_screen3.dart';
 import 'package:app_med/widgets/black_button.dart';
@@ -34,6 +35,14 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
   Widget build(BuildContext context) {
     void _handleContinue() {
       DoctorModel doctor = widget.doctor;
+      EnderecoModel endereco = EnderecoModel(
+        estado: estadoController.text,
+        cidade: cidadeController.text,
+        rua: ruaController.text,
+        cep: cepController.text,
+        numero: numeroController.text,
+        complemento: complementoController.text,
+      );
     }
 
     return Scaffold(

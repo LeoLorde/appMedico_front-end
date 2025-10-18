@@ -41,7 +41,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
         children: [
           AppLogo(),
           SizedBox(height: 20),
-          FormsHeader(title: 'Bem-vindo!', subtitle: 'Faça um cadatro'),
+          FormsHeader(title: 'Bem-vindo!', subtitle: 'Criar conta para Profissional'),
           SizedBox(height: 40),
           FormsTextField(label: 'Nome', hintText: 'Luísio de Azevedo', controller: _nameController),
           SizedBox(height: 20),

@@ -34,7 +34,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
         children: [
           AppLogo(),
           SizedBox(height: 20),
-          FormsHeader(title: "Bem-Vindo!", subtitle: "Faça login na sua conta"),
+          FormsHeader(title: "Bem-Vindo!", subtitle: "Entrar como Profissional"),
           SizedBox(height: 40),
           FormsTextField(
             label: "Email",

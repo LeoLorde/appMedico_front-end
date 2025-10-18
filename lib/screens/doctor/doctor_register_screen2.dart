@@ -90,7 +90,7 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
         children: [
           AppLogo(),
           SizedBox(height: 20),
-          FormsHeader(title: "Bem-Vindo!", subtitle: "Faça um cadastro"),
+          FormsHeader(title: "Bem-Vindo!", subtitle: "Criar conta para Profissional"),
           SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

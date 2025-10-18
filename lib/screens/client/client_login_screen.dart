@@ -55,7 +55,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
         children: [
           AppLogo(),
           SizedBox(height: 20),
-          FormsHeader(title: "Bem-Vindo!", subtitle: "Faça login na sua conta"),
+          FormsHeader(title: "Bem-Vindo!", subtitle: "Entrar como Paciente"),
           SizedBox(height: 40),
           FormsTextField(
             label: "Email",

@@ -43,7 +43,7 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
         children: [
           AppLogo(),
           SizedBox(height: 20),
-          FormsHeader(title: "Bem-Vindo!", subtitle: "Faça o seu cadastro"),
+          FormsHeader(title: "Bem-Vindo!", subtitle: "Criar conta para Profissional"),
           SizedBox(height: 40),
           FormsTextField(
             label: "Email",

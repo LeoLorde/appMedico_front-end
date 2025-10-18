@@ -61,7 +61,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
         children: [
           AppLogo(),
           SizedBox(height: 20),
-          FormsHeader(title: "Bem-vindo!", subtitle: "Faça um cadastro"),
+          FormsHeader(title: "Bem-vindo!", subtitle: "Criar conta para Paciente"),
           SizedBox(height: 40),
           Container(
             width: 350,

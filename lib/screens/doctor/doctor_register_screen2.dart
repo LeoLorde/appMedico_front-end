@@ -3,9 +3,12 @@ import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/models/endereco_model.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_register_screen3.dart';
-import 'package:app_med/widgets/black_button.dart';
-import 'package:app_med/widgets/forms_header.dart';
-import 'package:app_med/widgets/forms_text_field.dart';
+import 'package:app_med/widgets/app_logo.dart';
+import 'package:app_med/widgets/forms/auth_scaffold.dart';
+import 'package:app_med/widgets/buttons/black_button.dart';
+import 'package:app_med/widgets/forms/forms_header.dart';
+import 'package:app_med/widgets/forms/forms_text_field.dart';
+import 'package:app_med/widgets/link_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,12 +22,6 @@ class DoctorRegisterScreen2 extends StatefulWidget {
 }
 
 class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
-  @override
-  void initState() {
-    super.initState();
-    DoctorModel doctor = widget.doctor;
-  }
-
   TextEditingController estadoController = TextEditingController();
   TextEditingController cidadeController = TextEditingController();
   TextEditingController ruaController = TextEditingController();
@@ -32,191 +29,110 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
   TextEditingController numeroController = TextEditingController();
   TextEditingController complementoController = TextEditingController();
 
-  @override
-  Widget build(BuildContext context) {
-    Future<void> _handleContinue() async {
-      DoctorModel doctor = widget.doctor;
-      EnderecoModel endereco = EnderecoModel(
-        estado: estadoController.text,
-        cidade: cidadeController.text,
-        rua: ruaController.text,
-        cep: cepController.text,
-        numero: numeroController.text,
-        complemento: complementoController.text,
-      );
-      final response = await createAdress(endereco);
-      if (response.containsKey("Error")) {
-        return;
-      }
-      doctor.enderecoId = response["address"];
-      print(doctor.bio);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => DoctorRegisterScreen3(doctor)),
-      );
+  Future<void> _handleContinue() async {
+    DoctorModel doctor = widget.doctor;
+    EnderecoModel endereco = EnderecoModel(
+      estado: estadoController.text,
+      cidade: cidadeController.text,
+      rua: ruaController.text,
+      cep: cepController.text,
+      numero: numeroController.text,
+      complemento: complementoController.text,
+    );
+    final response = await createAdress(endereco);
+    if (response.containsKey("Error")) {
+      return;
     }
+    doctor.enderecoId = response["address"];
+    print(doctor.bio);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorRegisterScreen3(doctor)));
+  }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: true,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 120),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/images/logo.png', width: 120, height: 120),
-                      SizedBox(height: 20),
-                      FormsHeader(title: "Bem-Vindo!", subtitle: "Faça um cadastro"),
-                      SizedBox(height: 40),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FormsTextField(
-                            label: "Estado",
-                            hintText: "Paraná",
-                            controller: estadoController,
-                          ),
-                          SizedBox(width: 40),
-                          FormsTextField(
-                            label: "Cidade",
-                            hintText: "Curitiba",
-                            controller: cidadeController,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 150,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'CEP',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                TextField(
-                                  controller: cepController,
-                                  keyboardType: TextInputType.number,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    hintText: '67442-038',
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 12,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      borderSide: BorderSide(color: Colors.black, width: 1),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 40),
-                          FormsTextField(
-                            label: "Rua",
-                            hintText: "Rua A",
-                            controller: ruaController,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: 150,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Número',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                TextField(
-                                  controller: numeroController,
-                                  keyboardType: TextInputType.number,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    hintText: '154',
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 12,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      borderSide: BorderSide(color: Colors.black, width: 1),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 40),
-                          FormsTextField(
-                            label: "Complemento",
-                            hintText: "Ao lado de ...",
-                            controller: complementoController,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      BlackButton(
-                        label: "Continuar",
-                        onPressed: () async {
-                          await _handleContinue();
-                        },
-                      ),
-                      SizedBox(height: 60),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DoctorLoginScreen()),
-                          );
-                        },
-                        child: Text(
-                          'Já tem uma conta? Clique Aqui',
-                          style: GoogleFonts.inter(
-                            fontSize: 20,
-                            color: Colors.black,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+  Widget _buildSmallTextField(String label, String hint, TextEditingController controller) {
+    return Container(
+      width: 150,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.inter(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 10),
+          TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              hintText: hint,
+              filled: true,
+              fillColor: Colors.white,
+              contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(color: Colors.black, width: 1),
               ),
             ),
-          );
-        },
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AuthScaffold(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppLogo(),
+          SizedBox(height: 20),
+          FormsHeader(title: "Bem-Vindo!", subtitle: "Faça um cadastro"),
+          SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FormsTextField(label: "Estado", hintText: "Paraná", controller: estadoController),
+              SizedBox(width: 40),
+              FormsTextField(label: "Cidade", hintText: "Curitiba", controller: cidadeController),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildSmallTextField('CEP', '67442-038', cepController),
+              SizedBox(width: 40),
+              FormsTextField(label: "Rua", hintText: "Rua A", controller: ruaController),
+            ],
+          ),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildSmallTextField('Número', '154', numeroController),
+              SizedBox(width: 40),
+              FormsTextField(
+                label: "Complemento",
+                hintText: "Ao lado de ...",
+                controller: complementoController,
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          BlackButton(label: "Continuar", onPressed: _handleContinue),
+          SizedBox(height: 60),
+          LinkText(
+            text: 'Já tem uma conta? Clique Aqui',
+            fontSize: 20,
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorLoginScreen()));
+            },
+          ),
+        ],
       ),
     );
   }

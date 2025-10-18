@@ -3,12 +3,12 @@ import 'package:app_med/screens/client/client_register_screen.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/home_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
-import 'package:app_med/widgets/auth_scaffold.dart';
-import 'package:app_med/widgets/black_button.dart';
-import 'package:app_med/widgets/forms_header.dart';
-import 'package:app_med/widgets/forms_text_field.dart';
+import 'package:app_med/widgets/forms/auth_scaffold.dart';
+import 'package:app_med/widgets/buttons/black_button.dart';
+import 'package:app_med/widgets/forms/forms_header.dart';
+import 'package:app_med/widgets/forms/forms_text_field.dart';
 import 'package:app_med/widgets/link_text.dart';
-import 'package:app_med/widgets/white_button.dart';
+import 'package:app_med/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

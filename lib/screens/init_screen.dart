@@ -1,5 +1,7 @@
 import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
+import 'package:app_med/widgets/app_logo.dart';
+import 'package:app_med/widgets/cards/user_type_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,7 +19,7 @@ class _InitScreenState extends State<InitScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/logo.png', width: 120, height: 120),
+            AppLogo(),
             SizedBox(height: 20),
             Text(
               'Doctor Hub',
@@ -32,93 +34,27 @@ class _InitScreenState extends State<InitScreen> {
               style: GoogleFonts.inter(color: Colors.black, fontSize: 15),
             ),
             SizedBox(height: 40),
-            Container(
-              height: 80,
-              width: 300,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ClientLoginScreen()),
-                  );
-                },
-                child: Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    side: BorderSide(color: Colors.black, width: 1),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.person, color: Colors.black),
-                        SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Paciente',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text('Marcar horário', style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            UserTypeCard(
+              icon: Icons.person,
+              title: 'Paciente',
+              subtitle: 'Marcar horário',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ClientLoginScreen()),
+                );
+              },
             ),
-            Container(
-              height: 80,
-              width: 300,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => DoctorLoginScreen()),
-                  );
-                },
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                    side: BorderSide(color: Colors.black, width: 1),
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      children: [
-                        Icon(Icons.medical_services, color: Colors.black),
-                        SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Profissional',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text('Gerenciar horários', style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios, size: 16, color: Colors.black),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+            UserTypeCard(
+              icon: Icons.medical_services,
+              title: 'Profissional',
+              subtitle: 'Gerenciar horários',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DoctorLoginScreen()),
+                );
+              },
             ),
           ],
         ),

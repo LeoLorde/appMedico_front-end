@@ -18,16 +18,31 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
   @override
   Widget build(BuildContext context) {
     void _handleLogin() async {
-      final email = _emailController.text;
-      final password = _passwordController.text;
+      try {
+        final email = _emailController.text;
+        final password = _passwordController.text;
 
-      final response = await loginClient(email: email, senha: password);
-      final access_token = response["access_token"];
+        final response = await loginClient(email: email, senha: password);
 
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('access_token', access_token);
+        if (response == null || !response.containsKey("access_token")) {
+          // API retornou erro
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text("Login falhou! Verifique email e senha.")));
+          return;
+        }
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        final access_token = response["access_token"];
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access_token', access_token);
+
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      } catch (e) {
+        // Mostra erro caso algo dê errado
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erro no login: $e")));
+        print("Erro no login: $e");
+      }
     }
 
     return Scaffold(

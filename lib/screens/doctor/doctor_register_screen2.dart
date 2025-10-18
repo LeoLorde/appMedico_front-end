@@ -1,3 +1,4 @@
+import 'package:app_med/connections/create_address.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/models/endereco_model.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
@@ -33,7 +34,7 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
 
   @override
   Widget build(BuildContext context) {
-    void _handleContinue() {
+    Future<void> _handleContinue() async {
       DoctorModel doctor = widget.doctor;
       EnderecoModel endereco = EnderecoModel(
         estado: estadoController.text,
@@ -43,6 +44,10 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
         numero: numeroController.text,
         complemento: complementoController.text,
       );
+      final response = await createAdress(endereco);
+      if (response.containsKey("Error")) {
+        return;
+      }
     }
 
     return Scaffold(
@@ -176,7 +181,12 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
                         ],
                       ),
                       SizedBox(height: 30),
-                      BlackButton(label: "Continuar", onPressed: _handleContinue),
+                      BlackButton(
+                        label: "Continuar",
+                        onPressed: () async {
+                          await _handleContinue();
+                        },
+                      ),
                       SizedBox(height: 60),
                       GestureDetector(
                         onTap: () {

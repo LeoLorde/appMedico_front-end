@@ -1,6 +1,7 @@
 import 'package:app_med/connections/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
+import 'package:app_med/widgets/black_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -126,18 +127,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                 hint: '*********',
               ),
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _onRegisterPressed,
-                child: Text(
-                  'Cadastrar',
-                  style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  minimumSize: Size(350, 50),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                ),
-              ),
+              BlackButton(label: "Cadastrar", onPressed: _onRegisterPressed),
               Spacer(),
               GestureDetector(
                 onTap: () {

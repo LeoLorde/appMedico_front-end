@@ -1,6 +1,7 @@
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/client/client_register_screen2.dart';
+import 'package:app_med/widgets/black_button.dart';
 import 'package:app_med/widgets/date_picker_field.dart';
 import 'package:app_med/widgets/forms_header.dart';
 import 'package:app_med/widgets/gender_selector.dart';
@@ -154,20 +155,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                         ),
                       ),
                       SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          _onContinuePressed();
-                        },
-                        child: Text(
-                          'Continuar',
-                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        ),
-                      ),
+                      BlackButton(label: "Continuar", onPressed: () => {_onContinuePressed()}),
                       SizedBox(height: 60),
                       GestureDetector(
                         onTap: () {

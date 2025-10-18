@@ -1,7 +1,9 @@
 import 'package:app_med/connections/login_client.dart';
-import 'package:app_med/screens/client_login/client_register_screen.dart';
+import 'package:app_med/screens/client/client_register_screen.dart';
 import 'package:app_med/screens/doctor_login/doctor_login_screen.dart';
 import 'package:app_med/screens/home_screen.dart';
+import 'package:app_med/widgets/black_button.dart';
+import 'package:app_med/widgets/forms_header.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,7 +27,6 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
         final response = await loginClient(email: email, senha: password);
 
         if (response == null || !response.containsKey("access_token")) {
-          // API retornou erro
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text("Login falhou! Verifique email e senha.")));
@@ -39,7 +40,6 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
 
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       } catch (e) {
-        // Mostra erro caso algo dê errado
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erro no login: $e")));
         print("Erro no login: $e");
       }
@@ -63,18 +63,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                     children: [
                       Image.asset('assets/images/logo.png', width: 120, height: 120),
                       SizedBox(height: 20),
-                      Text(
-                        'Bem-vindo!',
-                        style: GoogleFonts.inter(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'Faça Login na sua conta',
-                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
-                      ),
+                      FormsHeader(title: "Bem-Vindo!", subtitle: "Faça login na sua conta"),
                       SizedBox(height: 40),
                       Container(
                         width: 350,
@@ -139,38 +128,21 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                         ),
                       ),
                       SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: _handleLogin,
-                        child: Text(
-                          'Login',
-                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        ),
+                      BlackButton(
+                        label: "Login",
+                        onPressed: () {
+                          _handleLogin();
+                        },
                       ),
                       SizedBox(height: 20),
-                      ElevatedButton(
+                      BlackButton(
+                        label: 'Criar Conta',
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ClientRegisterScreen()),
                           );
                         },
-                        child: Text(
-                          'Criar Conta',
-                          style: GoogleFonts.inter(fontSize: 20, color: Colors.black),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            side: BorderSide(width: 1, color: Colors.black),
-                          ),
-                        ),
                       ),
                       SizedBox(height: 90),
                       GestureDetector(
@@ -183,7 +155,7 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
                         child: Text(
                           'É um profissional? Clique Aqui',
                           style: GoogleFonts.inter(
-                            fontSize: 20,
+                            fontSize: 18,
                             color: Colors.black,
                             decoration: TextDecoration.underline,
                           ),

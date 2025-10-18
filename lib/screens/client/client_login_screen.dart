@@ -27,7 +27,6 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
         final response = await loginClient(email: email, senha: password);
 
         if (response == null || !response.containsKey("access_token")) {
-          // API retornou erro
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text("Login falhou! Verifique email e senha.")));
@@ -41,7 +40,6 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
 
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
       } catch (e) {
-        // Mostra erro caso algo dê errado
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erro no login: $e")));
         print("Erro no login: $e");
       }

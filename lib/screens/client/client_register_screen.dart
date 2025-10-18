@@ -4,6 +4,7 @@ import 'package:app_med/screens/client/client_register_screen2.dart';
 import 'package:app_med/widgets/black_button.dart';
 import 'package:app_med/widgets/date_picker_field.dart';
 import 'package:app_med/widgets/forms_header.dart';
+import 'package:app_med/widgets/forms_text_field.dart';
 import 'package:app_med/widgets/gender_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -97,37 +98,13 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'CPF',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              controller: cpfController,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                hintText: '123.456.789-00',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+
+                      FormsTextField(
+                        label: "CPF",
+                        hintText: "123.456.789-00",
+                        controller: cpfController,
                       ),
+
                       SizedBox(height: 20),
                       Container(
                         width: 350,

@@ -5,8 +5,19 @@ class DoctorModel {
   String? especialidade;
   String? bio;
   String? enderecoId;
+  String? crm;
+  String? senha;
 
-  DoctorModel({this.id, this.username, this.email, this.especialidade, this.bio, this.enderecoId});
+  DoctorModel({
+    this.id,
+    this.username,
+    this.email,
+    this.especialidade,
+    this.bio,
+    this.enderecoId,
+    this.crm,
+    this.senha,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -16,6 +27,8 @@ class DoctorModel {
       'especialidade': especialidade,
       'bio': bio,
       'endereco_id': enderecoId,
+      'crm': crm,
+      'senha': senha,
     };
   }
 
@@ -27,6 +40,8 @@ class DoctorModel {
       especialidade: map['especialidade'],
       bio: map['bio'],
       enderecoId: map['endereco_id'],
+      crm: map['crm'],
+      senha: map['senha'],
     );
   }
 }

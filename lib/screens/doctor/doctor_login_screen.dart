@@ -1,32 +1,14 @@
-import 'package:app_med/screens/client/client_register_screen2.dart';
-import 'package:app_med/screens/doctor_login/doctor_login_screen.dart';
-import 'package:app_med/screens/doctor_login/doctor_register_screen2.dart';
+import 'package:app_med/screens/client/client_login_screen.dart';
+import 'package:app_med/screens/doctor/doctor_register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
-class DoctorRegisterScreen extends StatefulWidget {
+class DoctorLoginScreen extends StatefulWidget {
   @override
-  State<DoctorRegisterScreen> createState() => _DoctorRegisterScreenState();
+  State<DoctorLoginScreen> createState() => _DoctorLoginScreenState();
 }
 
-class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
-  DateTime? selectedDate;
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
-
+class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +38,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                         ),
                       ),
                       Text(
-                        'Faça um cadatro',
+                        'Faça Login na sua conta',
                         style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
                       ),
                       SizedBox(height: 40),
@@ -66,7 +48,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Nome',
+                              'Email',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -75,9 +57,8 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                             ),
                             SizedBox(height: 10),
                             TextField(
-                              obscureText: false,
                               decoration: InputDecoration(
-                                hintText: 'Luísio de Azevedo',
+                                hintText: 'exemplo@gmail.com',
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -97,52 +78,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Data de Nascimento',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            InkWell(
-                              onTap: () => _selectDate(context),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(color: Colors.black, width: 1),
-                                  ),
-                                  suffixIcon: Icon(Icons.calendar_today, color: Colors.black),
-                                ),
-                                child: Text(
-                                  selectedDate != null
-                                      ? DateFormat('dd/MM/yyyy').format(selectedDate!)
-                                      : 'Selecione a data',
-                                  style: GoogleFonts.inter(
-                                    color: selectedDate != null ? Colors.black : Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Especialidade',
+                              'Senha',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -151,9 +87,9 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                             ),
                             SizedBox(height: 10),
                             TextField(
-                              obscureText: false,
+                              obscureText: true,
                               decoration: InputDecoration(
-                                hintText: 'Dentista',
+                                hintText: '********',
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -168,14 +104,9 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                       ),
                       SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DoctorRegisterScreen2()),
-                          );
-                        },
+                        onPressed: () {},
                         child: Text(
-                          'Continuar',
+                          'Login',
                           style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
                         ),
                         style: ElevatedButton.styleFrom(
@@ -184,16 +115,37 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                         ),
                       ),
-                      SizedBox(height: 60),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => DoctorRegisterScreen()),
+                          );
+                        },
+                        child: Text(
+                          'Criar Conta',
+                          style: GoogleFonts.inter(fontSize: 20, color: Colors.black),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          minimumSize: Size(350, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            side: BorderSide(width: 1, color: Colors.black),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 90),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => DoctorLoginScreen()),
+                            MaterialPageRoute(builder: (context) => ClientLoginScreen()),
                           );
                         },
                         child: Text(
-                          'Já tem uma conta? Clique Aqui',
+                          'É um cliente? Clique Aqui',
                           style: GoogleFonts.inter(
                             fontSize: 20,
                             color: Colors.black,

@@ -1,5 +1,5 @@
 import 'package:app_med/screens/client/client_login_screen.dart';
-import 'package:app_med/screens/doctor_login/doctor_login_screen.dart';
+import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

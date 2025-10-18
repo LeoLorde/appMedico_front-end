@@ -1,6 +1,6 @@
 import 'package:app_med/connections/login_client.dart';
 import 'package:app_med/screens/client/client_register_screen.dart';
-import 'package:app_med/screens/doctor_login/doctor_login_screen.dart';
+import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/home_screen.dart';
 import 'package:app_med/widgets/black_button.dart';
 import 'package:app_med/widgets/forms_header.dart';

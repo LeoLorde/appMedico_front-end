@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
 
 class FormsTextField extends StatelessWidget {
   final String label;
   final String hintText;
   final TextEditingController controller;
   final bool obscureText;
+  final List<TextInputFormatter>? inputFormatters;
 
   const FormsTextField({
     required this.label,
     required this.hintText,
     required this.controller,
     this.obscureText = false,
+    this.inputFormatters,
     super.key,
   });
 
@@ -34,6 +37,7 @@ class FormsTextField extends StatelessWidget {
           TextField(
             controller: controller,
             obscureText: obscureText,
+            inputFormatters: inputFormatters,
             decoration: InputDecoration(
               hintText: hintText,
               filled: true,

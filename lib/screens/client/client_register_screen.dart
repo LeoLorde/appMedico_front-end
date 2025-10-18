@@ -1,6 +1,7 @@
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/client/client_register_screen2.dart';
+import 'package:app_med/utils/parser/cpf_formatter.dart';
 import 'package:app_med/widgets/black_button.dart';
 import 'package:app_med/widgets/date_picker_field.dart';
 import 'package:app_med/widgets/forms_field_label.dart';
@@ -9,7 +10,9 @@ import 'package:app_med/widgets/forms_text_field.dart';
 import 'package:app_med/widgets/gender_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
+import 'package:app_med/utils/parser/gender_parse.dart';
+import 'package:app_med/utils/validator/client_register_validator.dart';
+import 'package:flutter/services.dart';
 
 class ClientRegisterScreen extends StatefulWidget {
   @override
@@ -26,21 +29,21 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
 
   void _onContinuePressed() {
     String cpf = cpfController.text;
-    String dataNascimento = selectedDate != null
-        ? DateFormat('yyyy-MM-dd').format(selectedDate!)
-        : 'Data não selecionada';
-    String genero = selectedGender ?? 'Nenhum gênero selecionado';
 
-    if (genero == 'Masculino') {
-      client.gender = 'MAN';
-    } else if (genero == 'Feminino') {
-      client.gender = 'WOMAN';
-    } else if (genero == 'Indefinido') {
-      client.gender = 'NONE';
+    if (!validateClientFirstData(
+      cpf: cpf,
+      selectedGender: selectedGender,
+      selectedDate: selectedDate,
+    )) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Por favor, preencha todos os campos corretamente.')));
+      return;
     }
 
     client.cpf = cpf;
-    client.dataDeNascimento = DateTime.tryParse(dataNascimento);
+    client.gender = genderParse(selectedGender);
+    client.dataDeNascimento = selectedDate;
 
     Navigator.push(
       context,
@@ -93,6 +96,10 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                         label: "CPF",
                         hintText: "123.456.789-00",
                         controller: cpfController,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          CpfInputFormatter(),
+                        ],
                       ),
                       SizedBox(height: 20),
                       Container(

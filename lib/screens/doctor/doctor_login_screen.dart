@@ -1,5 +1,10 @@
+import 'package:app_med/connections/login_doctor.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_register_screen.dart';
+import 'package:app_med/screens/home_screen.dart';
+import 'package:app_med/widgets/black_button.dart';
+import 'package:app_med/widgets/forms_header.dart';
+import 'package:app_med/widgets/forms_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -11,6 +16,20 @@ class DoctorLoginScreen extends StatefulWidget {
 class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
   @override
   Widget build(BuildContext context) {
+    void _handleRedirect() {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorRegisterScreen()));
+    }
+
+    TextEditingController emailController = TextEditingController();
+    TextEditingController senha = TextEditingController();
+
+    void _handleLogin() async {
+      final response = await loginDoctor(email: emailController.text, senha: senha.text);
+      if (response.containsKey("access_token")) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login funcionou")));
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -29,99 +48,31 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                     children: [
                       Image.asset('assets/images/logo.png', width: 120, height: 120),
                       SizedBox(height: 20),
-                      Text(
-                        'Bem-vindo!',
-                        style: GoogleFonts.inter(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'Faça Login na sua conta',
-                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
-                      ),
+                      FormsHeader(title: "Bem-Vindo!", subtitle: "Faça login na sua conta"),
                       SizedBox(height: 40),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Email',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              decoration: InputDecoration(
-                                hintText: 'exemplo@gmail.com',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      FormsTextField(
+                        label: "Email",
+                        hintText: "example@example.com",
+                        controller: emailController,
                       ),
                       SizedBox(height: 20),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Senha',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: '********',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      FormsTextField(
+                        label: "Senha",
+                        hintText: "*******",
+                        controller: senha,
+                        obscureText: true,
                       ),
                       SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Login',
-                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        ),
+                      BlackButton(
+                        label: "Login",
+                        onPressed: () async {
+                          _handleLogin();
+                        },
                       ),
                       SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DoctorRegisterScreen()),
-                          );
+                          _handleRedirect();
                         },
                         child: Text(
                           'Criar Conta',
@@ -138,11 +89,11 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
                       ),
                       SizedBox(height: 90),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () => {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => ClientLoginScreen()),
-                          );
+                          ),
                         },
                         child: Text(
                           'É um cliente? Clique Aqui',

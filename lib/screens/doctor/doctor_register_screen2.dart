@@ -2,7 +2,6 @@ import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_register_screen3.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class DoctorRegisterScreen2 extends StatefulWidget {
   @override

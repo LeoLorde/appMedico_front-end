@@ -3,6 +3,7 @@ import 'package:app_med/screens/client/client_login_screen.dart';
 import 'package:app_med/screens/client/client_register_screen2.dart';
 import 'package:app_med/widgets/black_button.dart';
 import 'package:app_med/widgets/date_picker_field.dart';
+import 'package:app_med/widgets/forms_field_label.dart';
 import 'package:app_med/widgets/forms_header.dart';
 import 'package:app_med/widgets/forms_text_field.dart';
 import 'package:app_med/widgets/gender_selector.dart';
@@ -41,9 +42,6 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
     client.cpf = cpf;
     client.dataDeNascimento = DateTime.tryParse(dataNascimento);
 
-    print('CPF: $cpf');
-    print('Data de Nascimento: $dataNascimento');
-    print('Gênero: $genero');
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ClientRegisterScreen2(clientModel: client)),
@@ -77,14 +75,7 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Data de Nascimento',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
+                            FormsFieldLabel(text: "Data de nascimento"),
                             SizedBox(height: 10),
                             DatePickerField(
                               selectedDate: selectedDate,
@@ -98,27 +89,18 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
                         ),
                       ),
                       SizedBox(height: 20),
-
                       FormsTextField(
                         label: "CPF",
                         hintText: "123.456.789-00",
                         controller: cpfController,
                       ),
-
                       SizedBox(height: 20),
                       Container(
                         width: 350,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Gênero',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
+                            FormsFieldLabel(text: "Gênero"),
                             SizedBox(height: 10),
                             GenderSelector(
                               selectedGender: selectedGender,

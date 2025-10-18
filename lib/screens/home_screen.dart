@@ -1,4 +1,5 @@
 import 'package:app_med/screens/calendar_screen.dart';
+import 'package:app_med/screens/search_doctor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:app_med/widgets/navbar.dart';
@@ -71,11 +72,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Icon(Icons.search, color: Colors.white),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: Text(
-                        'Procure doutores, especialidade...',
-                        style: GoogleFonts.inter(
-                          color: Colors.white.withOpacity(0.7),
-                          fontSize: 16,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SearchDoctorScreen()),
+                          );
+                        },
+                        child: Text(
+                          'Procure doutores, especialidade...',
+                          style: GoogleFonts.inter(
+                            color: Colors.white.withOpacity(0.7),
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),

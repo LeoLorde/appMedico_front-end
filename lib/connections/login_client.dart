@@ -3,11 +3,11 @@ import 'dart:convert';
 
 Future<Map> loginClient({required String email, required String senha}) async {
   final response = await http.post(
-    Uri.parse("http://192.168.1.10:5000/client/login"),
+    Uri.parse("http://192.168.0.8:5000/client/login"),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({"senha": senha, "email": email}),
   );
-  if (response.statusCode != 201) {
+  if (response.statusCode != 200) {
     return {"Error": "erro na consulta"};
   }
   final decoded = jsonDecode(response.body);

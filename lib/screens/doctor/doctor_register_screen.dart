@@ -1,9 +1,8 @@
-import 'package:app_med/screens/client/client_register_screen2.dart';
+import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_register_screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 
 class DoctorRegisterScreen extends StatefulWidget {
   @override
@@ -11,24 +10,25 @@ class DoctorRegisterScreen extends StatefulWidget {
 }
 
 class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
-  DateTime? selectedDate;
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _specialtyController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void _handleContinue() {
+      String name = _nameController.text;
+      String specialty = _specialtyController.text;
+      String bio = _bioController.text;
+
+      DoctorModel doctor = DoctorModel(username: name, especialidade: specialty, bio: bio);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DoctorRegisterScreen2(doctor: doctor)),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -75,6 +75,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                             ),
                             SizedBox(height: 10),
                             TextField(
+                              controller: _nameController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 hintText: 'Luísio de Azevedo',
@@ -97,7 +98,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Data de Nascimento',
+                              'Biografia',
                               style: GoogleFonts.inter(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -105,30 +106,18 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                               ),
                             ),
                             SizedBox(height: 10),
-                            InkWell(
-                              onTap: () => _selectDate(context),
-                              child: InputDecorator(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 12,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: BorderSide(color: Colors.black, width: 1),
-                                  ),
-                                  suffixIcon: Icon(Icons.calendar_today, color: Colors.black),
-                                ),
-                                child: Text(
-                                  selectedDate != null
-                                      ? DateFormat('dd/MM/yyyy').format(selectedDate!)
-                                      : 'Selecione a data',
-                                  style: GoogleFonts.inter(
-                                    color: selectedDate != null ? Colors.black : Colors.black,
-                                    fontSize: 16,
-                                  ),
+                            TextField(
+                              controller: _bioController,
+                              maxLines: 5,
+                              minLines: 3,
+                              decoration: InputDecoration(
+                                hintText: 'Escreva um pouco sobre você...',
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(color: Colors.black, width: 1),
                                 ),
                               ),
                             ),
@@ -151,6 +140,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                             ),
                             SizedBox(height: 10),
                             TextField(
+                              controller: _specialtyController,
                               obscureText: false,
                               decoration: InputDecoration(
                                 hintText: 'Dentista',
@@ -168,12 +158,7 @@ class _DoctorRegisterScreenState extends State<DoctorRegisterScreen> {
                       ),
                       SizedBox(height: 30),
                       ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DoctorRegisterScreen2()),
-                          );
-                        },
+                        onPressed: () {},
                         child: Text(
                           'Continuar',
                           style: GoogleFonts.inter(fontSize: 20, color: Colors.white),

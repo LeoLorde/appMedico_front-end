@@ -1,16 +1,31 @@
+import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/doctor/doctor_login_screen.dart';
 import 'package:app_med/screens/doctor/doctor_register_screen3.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DoctorRegisterScreen2 extends StatefulWidget {
+  final DoctorModel doctor;
+
+  DoctorRegisterScreen2({required this.doctor});
+
   @override
   State<DoctorRegisterScreen2> createState() => _DoctorRegisterScreen2State();
 }
 
 class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
   @override
+  void initState() {
+    super.initState();
+    DoctorModel doctor = widget.doctor;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    void _handleContinue() {
+      DoctorModel doctor = widget.doctor;
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,

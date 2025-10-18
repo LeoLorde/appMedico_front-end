@@ -7,7 +7,7 @@ Future<Map> loginClient({required String email, required String senha}) async {
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({"senha": senha, "email": email}),
   );
-  if (response.statusCode != 201) {
+  if (response.statusCode != 200) {
     return {"Error": "erro na consulta"};
   }
   final decoded = jsonDecode(response.body);

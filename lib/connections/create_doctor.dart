@@ -14,7 +14,7 @@ Future<Map> createDoctor(DoctorModel doctorModel) async {
       "id": doctorId,
       "username": doctorModel.username,
       "senha": doctorModel.senha,
-      "crm": doctorModel.crm,
+      "crm": "123322/SP",
       "especialidade": doctorModel.especialidade,
       "bio": doctorModel.bio,
       "email": doctorModel.email,

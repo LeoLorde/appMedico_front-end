@@ -1,13 +1,44 @@
+import 'package:app_med/connections/create_doctor.dart';
+import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
+import 'package:app_med/widgets/black_button.dart';
+import 'package:app_med/widgets/forms_header.dart';
+import 'package:app_med/widgets/forms_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class DoctorRegisterScreen3 extends StatefulWidget {
+  DoctorModel doctor;
+
+  DoctorRegisterScreen3(this.doctor);
   @override
   State<DoctorRegisterScreen3> createState() => _DoctorRegisterScreen3State();
 }
 
 class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController senhaController = TextEditingController();
+  TextEditingController senhaConfController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    DoctorModel doctor = widget.doctor;
+  }
+
+  Future<void> _handleCadastro() async {
+    DoctorModel doctor = widget.doctor;
+    doctor.email = emailController.text;
+    if (senhaConfController.text != senhaConfController.text) {
+      return;
+    }
+
+    doctor.senha = senhaConfController.text;
+    final response = createDoctor(doctor);
+    print(response);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,124 +59,32 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
                     children: [
                       Image.asset('assets/images/logo.png', width: 120, height: 120),
                       SizedBox(height: 20),
-                      Text(
-                        'Bem-vindo!',
-                        style: GoogleFonts.inter(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        'Faça um cadatro',
-                        style: GoogleFonts.inter(color: Colors.black, fontSize: 20),
-                      ),
+                      FormsHeader(title: "Bem-Vindo!", subtitle: "Faça o seu cadastro"),
                       SizedBox(height: 40),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Email',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                hintText: 'exemplo@gmail.com',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      FormsTextField(
+                        label: "Email",
+                        hintText: "example@example.gmail",
+                        controller: emailController,
                       ),
 
                       SizedBox(height: 20),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Senha',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: '*********',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      FormsTextField(
+                        label: "Senha",
+                        hintText: "***********",
+                        controller: senhaController,
                       ),
                       SizedBox(height: 20),
-                      Container(
-                        width: 350,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Confirmar Senha',
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: '*********',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide: BorderSide(color: Colors.black, width: 1),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      FormsTextField(
+                        label: "Confirmar Senha",
+                        hintText: "*********",
+                        controller: senhaConfController,
                       ),
                       SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Cadastrar',
-                          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          minimumSize: Size(350, 50),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        ),
+                      BlackButton(
+                        label: "Cadastrar",
+                        onPressed: () async {
+                          _handleCadastro();
+                        },
                       ),
                       SizedBox(height: 60),
                       GestureDetector(

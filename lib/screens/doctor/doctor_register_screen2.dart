@@ -50,7 +50,10 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
       }
       doctor.enderecoId = response["address"];
       print(doctor.bio);
-      Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorRegisterScreen3()));
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => DoctorRegisterScreen3(doctor)),
+      );
     }
 
     return Scaffold(
@@ -155,7 +158,7 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
                                 ),
                                 SizedBox(height: 10),
                                 TextField(
-                                  controller: ruaController,
+                                  controller: numeroController,
                                   keyboardType: TextInputType.number,
                                   obscureText: false,
                                   decoration: InputDecoration(

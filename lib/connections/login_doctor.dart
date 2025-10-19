@@ -1,9 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<Map> loginDoctor({required String email, required String senha}) async {
   final response = await http.post(
-    Uri.parse("http://192.168.1.10:5000/doctor/login"),
+    Uri.parse("${dotenv.env['API_URL']}/doctor/login"),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({"senha": senha, "email": email}),
   );

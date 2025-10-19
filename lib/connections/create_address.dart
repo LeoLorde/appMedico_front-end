@@ -2,13 +2,14 @@ import 'package:app_med/models/endereco_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<Map> createAdress(EnderecoModel enderecoModel) async {
   var uuid = Uuid();
   String enderecoId = uuid.v4();
 
   final response = await http.post(
-    Uri.parse("http://192.168.1.10:5000/address/create"),
+    Uri.parse("${dotenv.env['API_URL']}/address/create"),
     headers: {'Content-Type': 'application/json'},
     body: jsonEncode({
       "id": enderecoId,

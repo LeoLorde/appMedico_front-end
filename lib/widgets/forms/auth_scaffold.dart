@@ -1,3 +1,4 @@
+import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class AuthScaffold extends StatelessWidget {
@@ -10,6 +11,7 @@ class AuthScaffold extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
+      appBar: AuthAppBar(title: "DoctorHub", onBackTap: () => Navigator.pop(context)),
       body: LayoutBuilder(
         builder: (context, constraints) {
           return SingleChildScrollView(

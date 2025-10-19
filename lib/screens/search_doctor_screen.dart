@@ -1,6 +1,6 @@
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/widgets/doctor_search.dart';
-import 'package:app_med/widgets/search_app_bar.dart';
+import 'package:app_med/widgets/header/search_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class SearchDoctorScreen extends StatefulWidget {

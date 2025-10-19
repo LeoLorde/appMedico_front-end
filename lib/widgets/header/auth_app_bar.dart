@@ -15,20 +15,21 @@ class AuthAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.fromLTRB(16, 40, 16, 16),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: onBackTap,
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: onBackTap,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+            ),
           ),
-          Expanded(
+          Center(
             child: Text(
               title,
-              textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 color: Colors.black,
                 fontSize: 20,

@@ -8,23 +8,36 @@ class AuthScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final appBarHeight = kToolbarHeight + MediaQuery.of(context).padding.top;
+    final availableHeight = screenHeight - appBarHeight;
+
+    final verticalPadding = availableHeight * 0.02;
+    final horizontalPadding = MediaQuery.of(context).size.width * 0.05;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
       appBar: AuthAppBar(title: "DoctorHub", onBackTap: () => Navigator.pop(context)),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: Align(
-                alignment: Alignment.center,
-                child: Padding(padding: const EdgeInsets.symmetric(vertical: 120), child: child),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: verticalPadding.clamp(10.0, 40.0),
+                      horizontal: horizontalPadding.clamp(16.0, 32.0),
+                    ),
+                    child: child,
+                  ),
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

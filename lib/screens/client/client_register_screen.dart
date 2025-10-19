@@ -112,7 +112,6 @@ class _ClientRegisterScreenState extends State<ClientRegisterScreen> {
           SizedBox(height: 60),
           LinkText(
             text: 'Já tem uma conta? Clique Aqui',
-            fontSize: 20,
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ClientLoginScreen()));
             },

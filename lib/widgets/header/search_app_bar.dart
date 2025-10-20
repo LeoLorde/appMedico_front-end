@@ -4,8 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final VoidCallback onBackPressed;
+  final TextEditingController controller;
 
-  const SearchAppBar({required this.title, required this.onBackPressed, super.key});
+  const SearchAppBar({
+    required this.title,
+    required this.onBackPressed,
+    required this.controller,
+    super.key,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(150);
@@ -49,6 +55,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
                     border: Border.all(color: Colors.grey.shade300),
                   ),
                   child: TextField(
+                    controller: controller,
                     decoration: InputDecoration(
                       hintText: 'Pesquisar',
                       border: InputBorder.none,

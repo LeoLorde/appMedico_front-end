@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<List<DoctorModel>> getDoctor({required String username}) async {
   try {
     final response = await http.get(
-      Uri.parse("${dotenv.env['API_URL']}/doctor/$username/8"),
+      Uri.parse("${dotenv.env['API_URL']}/doctor/username/$username/8"),
       headers: {'Content-Type': 'application/json'},
     );
 

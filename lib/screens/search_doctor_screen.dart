@@ -1,3 +1,4 @@
+import 'package:app_med/connections/search_doctor.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/widgets/doctor_search.dart';
 import 'package:app_med/widgets/header/search_app_bar.dart';
@@ -9,29 +10,45 @@ class SearchDoctorScreen extends StatefulWidget {
 }
 
 class _SearchDoctorScreenState extends State<SearchDoctorScreen> {
+  List<DoctorModel> doctors = [];
+
+  TextEditingController controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SearchAppBar(title: 'Ache um Doutor', onBackPressed: () => Navigator.pop(context)),
+      appBar: SearchAppBar(
+        title: 'Ache um Doutor',
+        onBackPressed: () => Navigator.pop(context),
+        controller: controller,
+      ),
       body: ListView(
         padding: EdgeInsets.all(12),
         children: [
-          DoctorCard(
-            doctor: DoctorModel(username: 'Lucas', especialidade: 'Cardiologista'),
-            imageUrl: 'https://i.pravatar.cc/150?img=1',
-            distance: 3.2,
+          ElevatedButton(
+            onPressed: () async {
+              List<DoctorModel> fetchedDoctors = await getDoctor(username: controller.text);
+              print("${controller.text}");
+              print(fetchedDoctors.length);
+              setState(() {
+                doctors = fetchedDoctors;
+              });
+            },
+            child: Text("FETCH"),
           ),
-          DoctorCard(
-            doctor: DoctorModel(username: 'Ana', especialidade: 'Dermatologista'),
-            imageUrl: 'https://i.pravatar.cc/150?img=2',
-            distance: 5.7,
-          ),
-          DoctorCard(
-            doctor: DoctorModel(username: 'Rafael', especialidade: 'Ortopedista'),
-            imageUrl: 'https://i.pravatar.cc/150?img=3',
-            distance: 2.0,
-          ),
+
+          doctors.isEmpty
+              ? Center(child: Text('Nenhum doutor encontrado.'))
+              : ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: doctors.length,
+                  itemBuilder: (context, index) {
+                    DoctorModel doctor = doctors[index];
+                    return DoctorCard(doctor: doctor, imageUrl: '');
+                  },
+                ),
         ],
       ),
     );

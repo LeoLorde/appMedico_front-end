@@ -1,4 +1,5 @@
 import 'package:app_med/screens/calendar_screen.dart';
+import 'package:app_med/screens/notification_screen.dart';
 import 'package:app_med/screens/search_doctor_screen.dart';
 import 'package:app_med/widgets/header/home_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => CalendarScreen()));
         break;
       case 2:
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => NotificationScreen()));
+        break;
       case 3:
     }
   }

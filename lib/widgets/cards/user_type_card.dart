@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserTypeCard extends StatelessWidget {
   final IconData icon;
@@ -38,13 +39,13 @@ class UserTypeCard extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
+                      style: GoogleFonts.inter(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Colors.black,
                       ),
                     ),
-                    Text(subtitle, style: TextStyle(color: Colors.black)),
+                    Text(subtitle, style: GoogleFonts.inter(color: Colors.black)),
                   ],
                 ),
                 Spacer(),

@@ -5,13 +5,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String greeting;
   final String userName;
   final String avatarImage;
-  final VoidCallback onSearchTap;
+  final VoidCallback? onSearchTap;
 
   const HomeAppBar({
     required this.greeting,
     required this.userName,
     required this.avatarImage,
-    required this.onSearchTap,
+    this.onSearchTap,
     super.key,
   });
 
@@ -62,7 +62,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: GestureDetector(
-                    onTap: onSearchTap,
+                    onTap: onSearchTap ?? () {},
                     child: Text(
                       'Procure doutores, especialidade...',
                       style: GoogleFonts.inter(color: Colors.white.withOpacity(0.7), fontSize: 16),

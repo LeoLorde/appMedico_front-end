@@ -29,19 +29,19 @@ class DoctorCard extends StatelessWidget {
                 children: [
                   Text(
                     'Dr. ${doctor.username}',
-                    style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                   SizedBox(height: 4),
                   Text(
                     doctor.especialidade ?? '',
-                    style: GoogleFonts.inter(color: Colors.grey.shade600, fontSize: 18),
+                    style: GoogleFonts.inter(color: Colors.grey.shade600, fontSize: 16),
                   ),
                   SizedBox(height: 8),
                   Row(
                     children: [
                       Icon(Icons.star, color: Colors.yellow, size: 16),
                       SizedBox(width: 4),
-                      Text('5.0', style: GoogleFonts.inter(fontSize: 18)),
+                      Text('5.0', style: GoogleFonts.inter(fontSize: 16)),
                       SizedBox(width: 20),
                       Text('|'),
                       SizedBox(width: 18),
@@ -49,7 +49,7 @@ class DoctorCard extends StatelessWidget {
                       SizedBox(width: 4),
                       Text(
                         '${distance.toStringAsFixed(1)} KM',
-                        style: GoogleFonts.inter(fontSize: 18),
+                        style: GoogleFonts.inter(fontSize: 16),
                       ),
                     ],
                   ),

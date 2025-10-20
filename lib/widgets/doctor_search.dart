@@ -39,11 +39,6 @@ class DoctorCard extends StatelessWidget {
                   SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.yellow, size: 16),
-                      SizedBox(width: 4),
-                      Text('5.0', style: GoogleFonts.inter(fontSize: 16)),
-                      SizedBox(width: 20),
-                      Text('|'),
                       SizedBox(width: 18),
                       Icon(Icons.location_on, color: Colors.grey, size: 16),
                       SizedBox(width: 4),

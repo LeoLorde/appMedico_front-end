@@ -1,3 +1,4 @@
+import 'package:app_med/connections/login_doctor.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -25,6 +26,6 @@ Future<Map> createDoctor(DoctorModel doctorModel) async {
   if (response.statusCode != 201) {
     return {"Error": "erro na consulta"};
   }
-
+  await loginDoctor(email: doctorModel.email!, senha: doctorModel.senha!);
   return {"Message": "Deu boa"};
 }

@@ -30,6 +30,7 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
   TextEditingController complementoController = TextEditingController();
 
   Future<void> _handleContinue() async {
+    print("faz alguma coisa caralho");
     DoctorModel doctor = widget.doctor;
     EnderecoModel endereco = EnderecoModel(
       estado: estadoController.text,
@@ -39,10 +40,13 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
       numero: numeroController.text,
       complemento: complementoController.text,
     );
+    print("esperando address");
     final response = await createAdress(endereco);
     if (response.containsKey("Error")) {
+      print("erro de miearda: ${response["Error"]}");
       return;
     }
+    print("foi address");
     doctor.enderecoId = response["address"];
     print(doctor.bio);
     Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorRegisterScreen3(doctor)));
@@ -95,9 +99,23 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FormsTextField(label: "Estado", hintText: "Paraná", controller: estadoController),
+              Container(
+                width: 160,
+                child: FormsTextField(
+                  label: "Estado",
+                  hintText: "Paraná",
+                  controller: estadoController,
+                ),
+              ),
               SizedBox(width: 40),
-              FormsTextField(label: "Cidade", hintText: "Curitiba", controller: cidadeController),
+              Container(
+                width: 150,
+                child: FormsTextField(
+                  label: "Cidade",
+                  hintText: "Curitiba",
+                  controller: cidadeController,
+                ),
+              ),
             ],
           ),
           SizedBox(height: 20),
@@ -106,7 +124,10 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
             children: [
               _buildSmallTextField('CEP', '67442-038', cepController),
               SizedBox(width: 40),
-              FormsTextField(label: "Rua", hintText: "Rua A", controller: ruaController),
+              Container(
+                width: 160,
+                child: FormsTextField(label: "Rua", hintText: "Rua A", controller: ruaController),
+              ),
             ],
           ),
           SizedBox(height: 20),
@@ -115,15 +136,23 @@ class _DoctorRegisterScreen2State extends State<DoctorRegisterScreen2> {
             children: [
               _buildSmallTextField('Número', '154', numeroController),
               SizedBox(width: 40),
-              FormsTextField(
-                label: "Complemento",
-                hintText: "Ao lado de ...",
-                controller: complementoController,
+              Container(
+                width: 160,
+                child: FormsTextField(
+                  label: "Complemento",
+                  hintText: "Ao lado de ...",
+                  controller: complementoController,
+                ),
               ),
             ],
           ),
           SizedBox(height: 30),
-          BlackButton(label: "Continuar", onPressed: _handleContinue),
+          BlackButton(
+            label: "Continuar",
+            onPressed: () async {
+              await _handleContinue();
+            },
+          ),
           SizedBox(height: 60),
           LinkText(
             text: 'Já tem uma conta? Clique Aqui',

@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:app_med/connections/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login_screen.dart';
+import 'package:app_med/screens/home_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/buttons/black_button.dart';
 import 'package:app_med/widgets/forms/forms_header.dart';
@@ -35,7 +38,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     confirmPasswordController.text = clientModel.senha ?? '';
   }
 
-  void _onRegisterPressed() {
+  void _onRegisterPressed() async {
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(
         context,
@@ -46,7 +49,9 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     clientModel.email = emailController.text.trim();
     clientModel.senha = passwordController.text;
     print(clientModel.toMap());
-    createClient(clientModel);
+    final response = await createClient(clientModel);
+    print(response);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
   @override

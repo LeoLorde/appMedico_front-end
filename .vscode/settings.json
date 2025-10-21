@@ -1,0 +1,28 @@
+{
+  "files.exclude": {
+    "**/ios": true,
+    "**/android": false,
+    "**/linux": true,
+    "**/windows": true,
+    "**/web": true,
+    "**/macos": true,
+    "**/build": true,
+    "**analysis_options.yaml": true,
+    "**.metadata": true,
+    "**README.md": true,
+    "**.dart_tool": true,
+    "**.flutter-plugins-dependencies": true
+  },
+  "dart.analysisExcludedFolders": [
+    "build/"
+  ],
+  "editor.formatOnSave": true,
+  "dart.sdkPath": null,
+  "dart.flutterSdkPath": null,
+  "dart.previewFlutterUiGuides": true,
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "dart.previewFlutterUiGuidesCustomTracking": true,
+  "dart.lineLength": 100
+}

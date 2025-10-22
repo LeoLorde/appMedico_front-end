@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class ScheduleScreen extends StatefulWidget {
-  const ScheduleScreen({super.key});
+class ClientScheduleScreen extends StatefulWidget {
+  const ClientScheduleScreen({super.key});
 
   @override
-  State<ScheduleScreen> createState() => _ScheduleScreenState();
+  State<ClientScheduleScreen> createState() => _ClientScheduleScreenState();
 }
 
-class _ScheduleScreenState extends State<ScheduleScreen> {
+class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   String? _selectedTime;

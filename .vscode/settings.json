@@ -1,10 +1,10 @@
 {
   "files.exclude": {
     "**/ios": true,
-    "**/android": false,
+    "**/android": true,
     "**/linux": true,
     "**/windows": true,
-    "**/web": false,
+    "**/web": true,
     "**/macos": true,
     "**/build": true,
     "**analysis_options.yaml": true,

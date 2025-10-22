@@ -27,7 +27,6 @@ class AuthBlackAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -43,7 +42,7 @@ class AuthBlackAppBar extends StatelessWidget implements PreferredSizeWidget {
                   Text(subtitle, style: GoogleFonts.inter(color: Colors.white, fontSize: 18)),
                 ],
               ),
-              SizedBox(width: 140),
+              const Spacer(), // faz o espaço se adaptar automaticamente
               CircleAvatar(radius: 25, backgroundImage: AssetImage(avatarImage)),
             ],
           ),

@@ -1,7 +1,6 @@
 import 'config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:app_med/utils/notification_navigation.dart';
 
 // core Flutter primitives
 import 'package:flutter/foundation.dart';

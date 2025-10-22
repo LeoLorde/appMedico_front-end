@@ -1,7 +1,7 @@
 import 'package:app_med/connections/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login/client_login_screen.dart';
-import 'package:app_med/screens/client/home_screen.dart';
+import 'package:app_med/screens/client/client_home_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/buttons/black_button.dart';
 import 'package:app_med/widgets/forms/forms_header.dart';
@@ -49,7 +49,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     print(clientModel.toMap());
     final response = await createClient(clientModel);
     print(response);
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ClientHomeScreen()));
   }
 
   @override

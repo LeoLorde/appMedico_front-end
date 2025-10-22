@@ -45,6 +45,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ],
               ),
+              SizedBox(width: 80),
               CircleAvatar(radius: 25, backgroundImage: AssetImage(avatarImage)),
             ],
           ),

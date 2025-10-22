@@ -1,7 +1,7 @@
 import 'package:app_med/connections/login_client.dart';
 import 'package:app_med/screens/client/client_login/client_register_screen.dart';
 import 'package:app_med/screens/doctor/doctor_login/doctor_login_screen.dart';
-import 'package:app_med/screens/client/home_screen.dart';
+import 'package:app_med/screens/client/client_home_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/forms/auth_scaffold.dart';
 import 'package:app_med/widgets/buttons/black_button.dart';
@@ -40,7 +40,10 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', access_token);
 
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => ClientHomeScreen()),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erro no login: $e")));
       print("Erro no login: $e");

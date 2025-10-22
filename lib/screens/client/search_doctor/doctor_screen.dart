@@ -1,4 +1,4 @@
-import 'package:app_med/screens/client/schedule_screen.dart';
+import 'package:app_med/screens/client/search_doctor/client_schedule_screen.dart';
 import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -140,7 +140,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ScheduleScreen()),
+                    MaterialPageRoute(builder: (context) => ClientScheduleScreen()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

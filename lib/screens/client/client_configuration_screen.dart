@@ -13,7 +13,7 @@ class ClientConfigurationScreen extends StatefulWidget {
 }
 
 class _ClientConfigurationScreenState extends State<ClientConfigurationScreen> {
-  bool _notificationsEnabled = false;
+  bool _notificationsEnabled = true;
 
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {

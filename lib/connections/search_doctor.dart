@@ -22,3 +22,23 @@ Future<List<DoctorModel>> getDoctor({required String username}) async {
     return [];
   }
 }
+
+Future<DoctorModel> getDoctorById({required String id}) async {
+  try {
+    final response = await http.get(
+      Uri.parse("${dotenv.env['API_URL']}/doctor/id/$id"),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode != 200) {
+      return DoctorModel();
+    }
+
+    final Map<String, dynamic> data = json.decode(response.body);
+
+    return DoctorModel.fromMap(data);
+  } catch (e) {
+    print("Erro ao buscar médicos: $e");
+    return DoctorModel();
+  }
+}

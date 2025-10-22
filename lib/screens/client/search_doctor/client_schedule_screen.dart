@@ -1,11 +1,14 @@
+import 'package:app_med/connections/create_appointment.dart';
 import 'package:app_med/screens/shared/confirmation_screen.dart';
 import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientScheduleScreen extends StatefulWidget {
-  const ClientScheduleScreen({super.key});
+  String id;
+  ClientScheduleScreen({super.key, required this.id});
 
   @override
   State<ClientScheduleScreen> createState() => _ClientScheduleScreenState();
@@ -188,7 +191,14 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  final token = await prefs.get('access_token');
+                  await createAppointment(
+                    client_id: token,
+                    doctor_id: widget.id,
+                    date: _selectedDay,
+                  );
                   Navigator.push(
                     context,
                     MaterialPageRoute(

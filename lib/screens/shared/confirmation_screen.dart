@@ -66,7 +66,7 @@ class ConfirmationScreen extends StatelessWidget {
                     children: [
                       const CircleAvatar(
                         radius: 25,
-                        backgroundImage: AssetImage('assets/images/doctor.jpg'),
+                        backgroundImage: AssetImage('assets/images/logo.png'),
                       ),
                       const SizedBox(width: 10),
                       Column(

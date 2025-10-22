@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DoctorScreen extends StatefulWidget {
+  String id;
+
+  DoctorScreen({required this.id});
   @override
   State<DoctorScreen> createState() => _DoctorScreenState();
 }
@@ -140,7 +143,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ClientScheduleScreen()),
+                    MaterialPageRoute(builder: (context) => ClientScheduleScreen(id: widget.id)),
                   );
                 },
                 style: ElevatedButton.styleFrom(

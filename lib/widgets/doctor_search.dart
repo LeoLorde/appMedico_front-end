@@ -1,3 +1,4 @@
+import 'package:app_med/screens/client/search_doctor/doctor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,46 +13,54 @@ class DoctorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Row(
-          children: [
-            CircleAvatar(radius: 35, backgroundImage: NetworkImage(imageUrl)),
-            const SizedBox(width: 25),
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DoctorScreen(id: doctor.id!)),
+        );
+      },
+      child: Card(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        elevation: 3,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Row(
+            children: [
+              CircleAvatar(radius: 35, backgroundImage: NetworkImage(imageUrl)),
+              const SizedBox(width: 25),
 
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Dr. ${doctor.username}',
-                    style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    doctor.especialidade ?? '',
-                    style: GoogleFonts.inter(color: Colors.grey.shade600, fontSize: 16),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      SizedBox(width: 18),
-                      Icon(Icons.location_on, color: Colors.grey, size: 16),
-                      SizedBox(width: 4),
-                      Text(
-                        '${distance.toStringAsFixed(1)} KM',
-                        style: GoogleFonts.inter(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Dr. ${doctor.username}',
+                      style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      doctor.especialidade ?? '',
+                      style: GoogleFonts.inter(color: Colors.grey.shade600, fontSize: 16),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        SizedBox(width: 18),
+                        Icon(Icons.location_on, color: Colors.grey, size: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          '${distance.toStringAsFixed(1)} KM',
+                          style: GoogleFonts.inter(fontSize: 16),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

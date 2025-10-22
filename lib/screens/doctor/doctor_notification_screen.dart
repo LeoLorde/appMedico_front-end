@@ -1,14 +1,12 @@
-import 'package:app_med/screens/client/client_calendar_screen.dart';
-import 'package:app_med/screens/client/client_configuration_screen.dart';
-import 'package:app_med/screens/client/client_home_screen.dart';
+import 'package:app_med/connections/search_appointment.dart';
+import 'package:app_med/models/appointment_model.dart';
+import 'package:flutter/material.dart';
 import 'package:app_med/screens/doctor/doctor_calendar_screen.dart';
 import 'package:app_med/screens/doctor/doctor_configuration_screen.dart';
 import 'package:app_med/screens/doctor/doctor_home_screen.dart';
-import 'package:app_med/widgets/cards/client_notification_card.dart';
 import 'package:app_med/widgets/cards/doctor_notification_card.dart';
 import 'package:app_med/widgets/header/auth_black_app_bar.dart';
 import 'package:app_med/widgets/navbar.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DoctorNotificationScreen extends StatefulWidget {
@@ -17,6 +15,24 @@ class DoctorNotificationScreen extends StatefulWidget {
 }
 
 class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
+  String? token;
+  late Future<List<AppointmentModel>> futureAppointments;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTokenAndFetchAppointments();
+  }
+
+  void _loadTokenAndFetchAppointments() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedToken = prefs.getString('access_token');
+    setState(() {
+      token = storedToken;
+      futureAppointments = getAppointmentByDoctor(id: token ?? '');
+    });
+  }
+
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
@@ -35,11 +51,16 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
           context,
           MaterialPageRoute(builder: (_) => DoctorConfigurationScreen()),
         );
+        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (token == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AuthBlackAppBar(
@@ -49,61 +70,48 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  const Text(
-                    "05 solicitações pendentes",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        child: FutureBuilder<List<AppointmentModel>>(
+          future: futureAppointments,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError) {
+              return const Center(child: Text('Erro ao carregar solicitações'));
+            }
+
+            final notifications = snapshot.data ?? [];
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${notifications.length} solicitações pendentes",
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: notifications.length,
+                    itemBuilder: (context, index) {
+                      final notif = notifications[index];
+                      return DoctorNotificationCard(
+                        nome: notif.isConfirmed ?? '',
+                        data: notif.dataMarcada != null
+                            ? '${notif.dataMarcada!.day}/${notif.dataMarcada!.month}, ${notif.dataMarcada!.hour}:${notif.dataMarcada!.minute.toString().padLeft(2, '0')}'
+                            : '',
+                        motivo: notif.motivo ?? '',
+                        imageUrl: "assets/images/logo.png",
+                        onAccept: () {},
+                        onReject: () {},
+                      );
+                    },
                   ),
-                  const SizedBox(height: 12),
-                  DoctorNotificationCard(
-                    nome: "Ana Souza",
-                    data: "Ter 15, 10:00 AM",
-                    motivo: "Exame de rotina",
-                    imageUrl: "assets/images/logo.png",
-                    onAccept: () => {},
-                    onReject: () => {},
-                  ),
-                  DoctorNotificationCard(
-                    nome: "Ana Souza",
-                    data: "Ter 15, 10:00 AM",
-                    motivo: "Exame de rotina",
-                    imageUrl: "assets/images/logo.png",
-                    onAccept: () => {},
-                    onReject: () => {},
-                  ),
-                  DoctorNotificationCard(
-                    nome: "Ana Souza",
-                    data: "Ter 15, 10:00 AM",
-                    motivo: "Exame de rotina",
-                    imageUrl: "assets/images/logo.png",
-                    onAccept: () => {},
-                    onReject: () => {},
-                  ),
-                  DoctorNotificationCard(
-                    nome: "Ana Souza",
-                    data: "Ter 15, 10:00 AM",
-                    motivo: "Exame de rotina",
-                    imageUrl: "assets/images/logo.png",
-                    onAccept: () => {},
-                    onReject: () => {},
-                  ),
-                  DoctorNotificationCard(
-                    nome: "Ana Souza",
-                    data: "Ter 15, 10:00 AM",
-                    motivo: "Exame de rotina",
-                    imageUrl: "assets/images/logo.png",
-                    onAccept: () => {},
-                    onReject: () => {},
-                  ),
-                ],
-              ),
-            ),
-          ],
+                ),
+              ],
+            );
+          },
         ),
       ),
       bottomNavigationBar: Navbar(

@@ -1,3 +1,5 @@
+import 'package:app_med/connections/confirm_appointment.dart';
+import 'package:app_med/connections/refused-appointment.dart';
 import 'package:app_med/connections/search_appointment.dart';
 import 'package:app_med/models/appointment_model.dart';
 import 'package:flutter/material.dart';
@@ -103,8 +105,16 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
                             : '',
                         motivo: notif.motivo ?? '',
                         imageUrl: "assets/images/logo.png",
-                        onAccept: () {},
-                        onReject: () {},
+                        onAccept: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          final storedToken = prefs.getString('access_token') ?? "";
+                          await confirmAppointment(id: notif.id!, token: storedToken!);
+                        },
+                        onReject: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          final storedToken = prefs.getString('access_token') ?? "";
+                          await refusedAppointment(id: notif.id!, token: storedToken!);
+                        },
                       );
                     },
                   ),

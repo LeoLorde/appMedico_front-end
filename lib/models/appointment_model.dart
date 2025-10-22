@@ -4,21 +4,31 @@ class AppointmentModel {
   String? clientId;
   String? doctorId;
   String? isConfirmed;
+  String? motivo;
+  String? planoDeSaude;
 
-  AppointmentModel({this.id, this.dataMarcada, this.clientId, this.doctorId, this.isConfirmed});
+  AppointmentModel({
+    this.id,
+    this.dataMarcada,
+    this.clientId,
+    this.doctorId,
+    this.isConfirmed,
+    this.motivo,
+    this.planoDeSaude,
+  });
 
-  // Converter objeto para Map (para enviar ao backend)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'data_marcada': dataMarcada?.toIso8601String(), // só converte se não for nulo
+      'data_marcada': dataMarcada?.toIso8601String(),
       'client_id': clientId,
       'doctor_id': doctorId,
       'is_confirmed': isConfirmed,
+      'motivo': motivo,
+      'plano_de_saude': planoDeSaude,
     };
   }
 
-  // Criar a partir de um Map (quando recebe do backend)
   factory AppointmentModel.fromMap(Map<String, dynamic> map) {
     return AppointmentModel(
       id: map['id'],
@@ -26,6 +36,8 @@ class AppointmentModel {
       clientId: map['client_id'],
       doctorId: map['doctor_id'],
       isConfirmed: map['is_confirmed'],
+      motivo: map['motivo'],
+      planoDeSaude: map['plano_de_saude'],
     );
   }
 }

@@ -198,6 +198,8 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
                     client_id: token,
                     doctor_id: widget.id,
                     date: _selectedDay,
+                    motivo: _reasonController.text,
+                    plano: "",
                   );
                   Navigator.push(
                     context,

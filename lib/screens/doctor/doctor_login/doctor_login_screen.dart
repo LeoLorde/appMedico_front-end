@@ -1,5 +1,6 @@
 import 'package:app_med/connections/login_doctor.dart';
 import 'package:app_med/screens/client/client_login/client_login_screen.dart';
+import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/screens/doctor/doctor_login/doctor_register_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/forms/auth_scaffold.dart';
@@ -9,6 +10,7 @@ import 'package:app_med/widgets/forms/forms_text_field.dart';
 import 'package:app_med/widgets/link_text.dart';
 import 'package:app_med/widgets/buttons/white_button.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DoctorLoginScreen extends StatefulWidget {
   @override
@@ -23,7 +25,10 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
     final response = await loginDoctor(email: emailController.text, senha: senhaController.text);
     if (response.containsKey("access_token")) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login funcionou")));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('access_token', response['access_token']);
     }
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
   }
 
   @override

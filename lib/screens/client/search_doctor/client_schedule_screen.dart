@@ -1,5 +1,5 @@
 import 'package:app_med/connections/create_appointment.dart';
-import 'package:app_med/screens/shared/confirmation_screen.dart';
+import 'package:app_med/screens/client/confirmation_screen.dart';
 import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

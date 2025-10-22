@@ -1,5 +1,6 @@
 import 'package:app_med/screens/client/client_calendar_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';
+import 'package:app_med/screens/shared/faq_screen.dart';
 
 import 'package:app_med/widgets/header/auth_black_app_bar.dart';
 import 'package:app_med/widgets/navbar.dart';
@@ -109,7 +110,9 @@ class _ClientConfigurationScreenState extends State<ClientConfigurationScreen> {
                 title: const Text('Perguntas Frequentes'),
                 subtitle: const Text('Encontre respostas rápidas'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FaqScreen()));
+                },
               ),
             ),
             const SizedBox(height: 8),
@@ -122,7 +125,49 @@ class _ClientConfigurationScreenState extends State<ClientConfigurationScreen> {
                 title: const Text('Relatar Problemas'),
                 subtitle: const Text('Relate problemas'),
                 trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      title: const Text('Acesse nosso email:'),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              // Copiar o email pro clipboard (opcional)
+                              // Clipboard.setData(const ClipboardData(text: 'doctorhub245@gmail.com'));
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(const SnackBar(content: Text('Email copiado!')));
+                            },
+                            child: const Text(
+                              'doctorhub245@gmail.com',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text('e relate qualquer problema.', textAlign: TextAlign.center),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text(
+                            'Fechar',
+                            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(height: 20),

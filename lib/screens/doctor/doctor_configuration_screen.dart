@@ -137,6 +137,7 @@ class _DoctorConfigurationScreenState extends State<DoctorConfigurationScreen> {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
+                      backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       title: const Text('Acesse nosso email:'),
                       content: Column(

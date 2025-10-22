@@ -4,7 +4,7 @@
     "**/android": false,
     "**/linux": true,
     "**/windows": true,
-    "**/web": true,
+    "**/web": false,
     "**/macos": true,
     "**/build": true,
     "**analysis_options.yaml": true,

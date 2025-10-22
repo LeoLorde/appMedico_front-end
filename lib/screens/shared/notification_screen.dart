@@ -16,16 +16,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomeScreen()),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomeScreen()));
         break;
       case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => CalendarScreen()),
-        );
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => CalendarScreen()));
         break;
       case 2:
         break;
@@ -46,7 +40,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
         subtitle: 'Fique ligado',
         avatarImage: 'assets/images/logo.png',
       ),
-
+      body: ListView(
+        children: [
+          NotificationCard(
+            icon: Icons.ios_share_outlined,
+            title: 'Lembrete de Agendamento',
+            subtitle: 'Seu agendamento com o Dr. Leonardo Reisdoefer é amanhã às 2:00 PM',
+            time: '2 horas atrás',
+          ),
+        ],
+      ),
       bottomNavigationBar: Navbar(
         selectedIndex: 2,
         onItemTapped: (index) => _onItemTapped(context, index),

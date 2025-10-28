@@ -1,4 +1,5 @@
 import 'package:app_med/connections/confirm_appointment.dart';
+import 'package:app_med/connections/pending_appointment.dart';
 import 'package:app_med/connections/refused-appointment.dart';
 import 'package:app_med/connections/search_appointment.dart';
 import 'package:app_med/models/appointment_model.dart';
@@ -31,7 +32,7 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
     final storedToken = prefs.getString('access_token');
     setState(() {
       token = storedToken;
-      futureAppointments = getAppointmentByDoctor(id: token ?? '');
+      futureAppointments = getAppointmentByDoctorPending(id: token ?? '');
     });
   }
 

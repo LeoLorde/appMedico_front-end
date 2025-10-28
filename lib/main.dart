@@ -84,5 +84,5 @@ Future main() async {
   // TODO: Set up background message handler
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  runApp(configApp(developing: false, testing: true));
+  runApp(configApp(developing: false, testing: false));
 }

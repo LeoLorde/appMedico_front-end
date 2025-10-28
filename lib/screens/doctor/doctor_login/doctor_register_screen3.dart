@@ -2,6 +2,7 @@ import 'package:app_med/connections/create_doctor.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/client/client_login/client_login_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';
+import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/forms/auth_scaffold.dart';
 import 'package:app_med/widgets/buttons/black_button.dart';
@@ -33,7 +34,7 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
 
     doctor.senha = senhaConfController.text;
     final response = await createDoctor(doctor);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ClientHomeScreen()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
     print(response);
   }
 

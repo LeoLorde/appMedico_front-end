@@ -14,7 +14,7 @@ Widget configApp({bool developing = false, bool testing = false}) {
   } else if (testing) {
     startScreen = InitScreen();
   } else {
-    startScreen = DoctorHomeScreen();
+    startScreen = InitScreen();
   }
 
   return MaterialApp(

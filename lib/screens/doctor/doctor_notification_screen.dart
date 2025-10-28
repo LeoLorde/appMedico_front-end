@@ -1,6 +1,6 @@
 import 'package:app_med/connections/confirm_appointment.dart';
 import 'package:app_med/connections/pending_appointment.dart';
-import 'package:app_med/connections/refused-appointment.dart';
+import 'package:app_med/connections/refused_appointment.dart';
 import 'package:app_med/connections/search_appointment.dart';
 import 'package:app_med/models/appointment_model.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,12 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
     final storedToken = prefs.getString('access_token');
     setState(() {
       token = storedToken;
+      futureAppointments = getAppointmentByDoctorPending(id: token ?? '');
+    });
+  }
+
+  void _refreshAppointments() {
+    setState(() {
       futureAppointments = getAppointmentByDoctorPending(id: token ?? '');
     });
   }
@@ -99,22 +105,27 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
                     itemCount: notifications.length,
                     itemBuilder: (context, index) {
                       final notif = notifications[index];
+                      print("----");
+                      print(notif.dataMarcada);
+                      print("----");
                       return DoctorNotificationCard(
                         nome: notif.isConfirmed ?? '',
                         data: notif.dataMarcada != null
-                            ? '${notif.dataMarcada!.day}/${notif.dataMarcada!.month}, ${notif.dataMarcada!.hour}:${notif.dataMarcada!.minute.toString().padLeft(2, '0')}'
+                            ? '${notif.dataMarcada!.day.toString().padLeft(2, '0')}/${notif.dataMarcada!.month.toString().padLeft(2, '0')}, ${notif.dataMarcada!.hour.toString().padLeft(2, '0')}:${notif.dataMarcada!.minute.toString().padLeft(2, '0')}'
                             : '',
                         motivo: notif.motivo ?? '',
                         imageUrl: "assets/images/logo.png",
                         onAccept: () async {
                           final prefs = await SharedPreferences.getInstance();
                           final storedToken = prefs.getString('access_token') ?? "";
-                          await confirmAppointment(id: notif.id!, token: storedToken!);
+                          await confirmAppointment(id: notif.id!, token: storedToken);
+                          _refreshAppointments(); // Atualiza lista sem recarregar a tela
                         },
                         onReject: () async {
                           final prefs = await SharedPreferences.getInstance();
                           final storedToken = prefs.getString('access_token') ?? "";
-                          await refusedAppointment(id: notif.id!, token: storedToken!);
+                          await refusedAppointment(id: notif.id!, token: storedToken);
+                          _refreshAppointments(); // Atualiza lista sem recarregar a tela
                         },
                       );
                     },

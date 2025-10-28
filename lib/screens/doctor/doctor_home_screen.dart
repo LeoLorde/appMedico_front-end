@@ -8,6 +8,7 @@ import 'package:app_med/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_med/connections/search_doc_appointment.dart';
+import 'package:intl/intl.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadAgendas(); // 👈 chama a função async aqui
+    _loadAgendas();
   }
 
   Future<void> _loadAgendas() async {
@@ -29,6 +30,27 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     setState(() {
       futureAgendas = fetchAgendas(storedToken);
     });
+  }
+
+  String _formatarData(dynamic dataMarcada) {
+    try {
+      if (dataMarcada == null) return 'Sem hora';
+
+      DateTime data;
+
+      if (dataMarcada is String) {
+        // tenta converter ISO exato (do Python: "2025-10-28T14:30:00")
+        data = DateTime.parse(dataMarcada);
+      } else {
+        return 'Sem hora';
+      }
+
+      // formato: 28/10 - 14:30 (sem AM/PM)
+      return DateFormat('dd/MM - HH:mm', 'pt_BR').format(data);
+    } catch (e) {
+      print('Erro ao formatar data: $e');
+      return 'Sem hora';
+    }
   }
 
   void _onItemTapped(BuildContext context, int index) {
@@ -99,12 +121,14 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                       final item = agendas[index];
                       final data = item.toMap();
 
+                      final horaFormatada = _formatarData(data["data_marcada"]);
+
                       return ScheduleCard(
-                        nome: data["motivo"] ?? '',
+                        nome: data["motivo"] ?? 'Sem motivo',
                         tipo: data["client_id"] ?? '',
-                        hora: data["data_marcada"]?.toString() ?? '',
-                        status: data["is_confirmed"]?.toString() ?? '',
-                        imageUrl: "assets/images/logo.png",
+                        hora: horaFormatada,
+                        status: data["is_confirmed"]?.toString() ?? 'pending',
+                        imageUrl: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
                       );
                     },
                   ),

@@ -18,9 +18,9 @@ class ScheduleCard extends StatelessWidget {
 
   Color getStatusColor() {
     switch (status.toLowerCase()) {
-      case "confirmada":
+      case "confirmed":
         return Colors.green.shade400;
-      case "pendente":
+      case "pending":
         return Colors.yellow.shade600;
       default:
         return Colors.grey;
@@ -43,37 +43,44 @@ class ScheduleCard extends StatelessWidget {
             const SizedBox(width: 10),
 
             // Informações principais
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(nome, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-                  Text(tipo, style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
-                  const SizedBox(height: 6),
-                  Row(
-                    children: [
-                      const Icon(Icons.access_time, size: 16),
-                      const SizedBox(width: 4),
-                      Text(hora),
-                    ],
-                  ),
-                ],
+            Container(
+              width: 180,
+              child: Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(nome, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    Text(tipo, style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
+                    const SizedBox(height: 6),
+                    Row(
+                      children: [
+                        const Icon(Icons.access_time, size: 16),
+                        const SizedBox(width: 4),
+                        Text(hora),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
 
             // Status
             Container(
+              height: 30,
+              width: 80,
               decoration: BoxDecoration(
                 color: getStatusColor().withOpacity(0.15),
                 borderRadius: BorderRadius.circular(12),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              child: Text(
-                status,
-                style: TextStyle(
-                  color: getStatusColor(),
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12,
+              child: Center(
+                child: Text(
+                  status,
+                  style: TextStyle(
+                    color: getStatusColor(),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12,
+                  ),
                 ),
               ),
             ),

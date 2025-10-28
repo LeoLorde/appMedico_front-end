@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DoctorCard extends StatelessWidget {
+class DoctorSearchCard extends StatelessWidget {
   final DoctorModel doctor;
   final String imageUrl;
   final double distance; // calcular depois usando enderecoId
 
-  const DoctorCard({Key? key, required this.doctor, required this.imageUrl, this.distance = 0.0})
-    : super(key: key);
+  const DoctorSearchCard({
+    Key? key,
+    required this.doctor,
+    required this.imageUrl,
+    this.distance = 0.0,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

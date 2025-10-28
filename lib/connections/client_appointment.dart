@@ -1,18 +1,16 @@
 import 'package:app_med/models/appointment_model.dart';
-import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-Future<List<AppointmentModel>> fetchAgendas(String id) async {
+Future<List<AppointmentModel>> getAppointmentByClient({required String id}) async {
   try {
     final response = await http.get(
-      Uri.parse("${dotenv.env['API_URL']}/appointment/doc"),
+      Uri.parse("${dotenv.env['API_URL']}/appointment/client"),
       headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${id}'},
     );
 
     if (response.statusCode != 200) {
-      debugPrint('${response.statusCode}');
       return [];
     }
 

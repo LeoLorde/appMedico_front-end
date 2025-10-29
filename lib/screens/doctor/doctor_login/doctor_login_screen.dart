@@ -27,6 +27,7 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login funcionou")));
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', response['access_token']);
+      await prefs.setString('username', response['user']['username']);
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
   }

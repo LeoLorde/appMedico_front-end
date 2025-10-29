@@ -1,4 +1,5 @@
 import 'package:app_med/connections/create_doctor.dart';
+import 'package:app_med/connections/login_doctor.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/client/client_login/client_login_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';
@@ -10,6 +11,7 @@ import 'package:app_med/widgets/forms/forms_header.dart';
 import 'package:app_med/widgets/forms/forms_text_field.dart';
 import 'package:app_med/widgets/link_text.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class DoctorRegisterScreen3 extends StatefulWidget {
@@ -34,6 +36,13 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
 
     doctor.senha = senhaConfController.text;
     final response = await createDoctor(doctor);
+    final response2 = await loginDoctor(email: emailController.text, senha: senhaController.text);
+    if (response.containsKey("access_token")) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login funcionou")));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('access_token', response['access_token']);
+      await prefs.setString('username', response['user']['username']);
+    }
     Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
     print(response);
   }

@@ -17,11 +17,13 @@ class DoctorHomeScreen extends StatefulWidget {
 
 class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   late Future<List<AppointmentModel>> futureAgendas;
+  String? _username;
 
   @override
   void initState() {
     super.initState();
     _loadAgendas();
+    _loadUsername();
   }
 
   Future<void> _loadAgendas() async {
@@ -32,6 +34,14 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     });
   }
 
+  Future<void> _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedName = prefs.getString('username') ?? "Usuário";
+    setState(() {
+      _username = storedName;
+    });
+  }
+
   String _formatarData(dynamic dataMarcada) {
     try {
       if (dataMarcada == null) return 'Sem hora';
@@ -39,13 +49,10 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       DateTime data;
 
       if (dataMarcada is String) {
-        // tenta converter ISO exato (do Python: "2025-10-28T14:30:00")
         data = DateTime.parse(dataMarcada);
       } else {
         return 'Sem hora';
       }
-
-      // formato: 28/10 - 14:30 (sem AM/PM)
       return DateFormat('dd/MM - HH:mm', 'pt_BR').format(data);
     } catch (e) {
       print('Erro ao formatar data: $e');
@@ -84,7 +91,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       backgroundColor: Colors.white,
       appBar: AuthBlackAppBar(
         title: 'Bom dia!',
-        subtitle: 'Luísio de Azevedo',
+        subtitle: _username ?? 'Carregando...',
         avatarImage: 'assets/images/logo.png',
       ),
       body: Padding(

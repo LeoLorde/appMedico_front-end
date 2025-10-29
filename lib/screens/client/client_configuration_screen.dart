@@ -1,5 +1,7 @@
+import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_calendar_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';
+import 'package:app_med/screens/client/edit_client_profile.dart';
 import 'package:app_med/screens/shared/faq_screen.dart';
 
 import 'package:app_med/widgets/header/auth_black_app_bar.dart';
@@ -73,7 +75,14 @@ class _ClientConfigurationScreenState extends State<ClientConfigurationScreen> {
                         height: 40,
                         width: 120,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfileScreen(client: ClientModel()),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             backgroundColor: Colors.white,

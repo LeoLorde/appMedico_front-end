@@ -1,40 +1,44 @@
-import 'package:app_med/models/client_model.dart';
-import 'package:app_med/widgets/gender/gender_selector.dart';
+import 'package:app_med/models/doctor_model.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class EditDoctorProfile extends StatefulWidget {
-  final ClientModel client;
+  final DoctorModel doctor;
 
-  const EditDoctorProfile({super.key, required this.client});
+  const EditDoctorProfile({super.key, required this.doctor});
 
   @override
   State<EditDoctorProfile> createState() => _EditDoctorProfileState();
 }
 
 class _EditDoctorProfileState extends State<EditDoctorProfile> {
-  String? selectedGender;
-  bool obscurePassword = true;
   File? _imageFile;
+  final ImagePicker _picker = ImagePicker();
 
   late TextEditingController nameController;
   late TextEditingController emailController;
-  late TextEditingController passwordController;
-  late TextEditingController confirmPasswordController;
+  late TextEditingController crmController;
+  late TextEditingController startController;
+  late TextEditingController endController;
+  late TextEditingController lunchStartController;
+  late TextEditingController lunchEndController;
 
-  final ImagePicker _picker = ImagePicker();
+  List<String> selectedDays = [];
 
   @override
   void initState() {
     super.initState();
 
-    nameController = TextEditingController(text: widget.client.username ?? '');
-    emailController = TextEditingController(text: widget.client.email ?? '');
-    passwordController = TextEditingController(text: widget.client.senha ?? '');
-    confirmPasswordController = TextEditingController(text: widget.client.senha ?? '');
-    selectedGender = widget.client.gender ?? 'Indefinido';
+    nameController = TextEditingController(text: widget.doctor.username ?? '');
+    emailController = TextEditingController(text: widget.doctor.email ?? '');
+    crmController = TextEditingController(text: widget.doctor.crm ?? '');
+    startController = TextEditingController(text: widget.doctor.startHour ?? '');
+    endController = TextEditingController(text: widget.doctor.endHour ?? '');
+    lunchStartController = TextEditingController(text: widget.doctor.lunchStart ?? '');
+    lunchEndController = TextEditingController(text: widget.doctor.lunchEnd ?? '');
+
+    selectedDays = widget.doctor.workDays ?? [];
   }
 
   Future<void> _pickImage() async {
@@ -47,8 +51,31 @@ class _EditDoctorProfileState extends State<EditDoctorProfile> {
     }
   }
 
+  Future<void> _pickTime(TextEditingController controller) async {
+    final pickedTime = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+
+    if (pickedTime != null) {
+      final formatted = pickedTime.format(context);
+      setState(() {
+        controller.text = formatted;
+      });
+    }
+  }
+
+  void _toggleDay(String day) {
+    setState(() {
+      if (selectedDays.contains(day)) {
+        selectedDays.remove(day);
+      } else {
+        selectedDays.add(day);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Editar Perfil", style: TextStyle(color: Colors.black)),
@@ -63,66 +90,80 @@ class _EditDoctorProfileState extends State<EditDoctorProfile> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Foto do perfil
-            Center(
-              child: GestureDetector(
-                onTap: _pickImage,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 55,
-                      backgroundImage: _imageFile != null
-                          ? FileImage(_imageFile!)
-                          : const AssetImage('assets/images/logo.png') as ImageProvider,
+            GestureDetector(
+              onTap: _pickImage,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 55,
+                    backgroundImage: _imageFile != null
+                        ? FileImage(_imageFile!)
+                        : const AssetImage('assets/images/logo.png') as ImageProvider,
+                  ),
+                  Container(
+                    width: 110,
+                    height: 110,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black.withOpacity(0.4),
                     ),
-                    Container(
-                      width: 110,
-                      height: 110,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.black.withOpacity(0.4),
-                      ),
-                      child: const Icon(Icons.camera_alt, color: Colors.white, size: 32),
-                    ),
-                  ],
-                ),
+                    child: const Icon(Icons.camera_alt, color: Colors.white, size: 32),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 24),
 
-            // Campos editáveis
-            _buildEditableField("Nome", nameController, Icons.edit),
-            _buildEditableField("Email", emailController, Icons.edit),
-            _buildPasswordField('Nova senha', passwordController),
-            _buildPasswordField('Confirmar senha', confirmPasswordController),
+            _buildEditableField("Nome", nameController),
+            _buildEditableField("Email", emailController),
+            _buildEditableField("CRM", crmController),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text("Gênero", style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+              child: Text(
+                "Dias de Expediente",
+                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+              ),
             ),
             const SizedBox(height: 8),
 
-            // Seletor de gênero
-            GenderSelector(
-              selectedGender: selectedGender,
-              onSelectGender: (gender) {
-                setState(() {
-                  selectedGender = gender;
-                });
-              },
+            Wrap(
+              spacing: 8,
+              children: daysOfWeek.map((day) {
+                final isSelected = selectedDays.contains(day);
+                return ChoiceChip(
+                  label: Text(day),
+                  selected: isSelected,
+                  onSelected: (_) => _toggleDay(day),
+                  selectedColor: Colors.black,
+                  labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.black),
+                  backgroundColor: Colors.grey.shade200,
+                );
+              }).toList(),
             ),
 
-            const SizedBox(height: 28),
+            const SizedBox(height: 24),
+            _buildTimePickerField("Início do Expediente", startController),
+            _buildTimePickerField("Fim do Expediente", endController),
+            _buildTimePickerField("Início do Almoço", lunchStartController),
+            _buildTimePickerField("Fim do Almoço", lunchEndController),
 
-            // Botão confirmar
+            const SizedBox(height: 28),
             SizedBox(
               width: double.infinity,
               height: 48,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // salvar aqui
+                  print("Nome: ${nameController.text}");
+                  print("Dias: $selectedDays");
+                  print("Início: ${startController.text} - Fim: ${endController.text}");
+                  print("Almoço: ${lunchStartController.text} - ${lunchEndController.text}");
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -136,36 +177,30 @@ class _EditDoctorProfileState extends State<EditDoctorProfile> {
     );
   }
 
-  Widget _buildEditableField(String label, TextEditingController controller, IconData icon) {
+  Widget _buildEditableField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
           labelText: label,
-          suffixIcon: Icon(icon, size: 20),
+          suffixIcon: const Icon(Icons.edit, size: 20),
           border: const UnderlineInputBorder(),
         ),
       ),
     );
   }
 
-  Widget _buildPasswordField(String label, TextEditingController controller) {
+  Widget _buildTimePickerField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: TextField(
         controller: controller,
-        obscureText: obscurePassword,
+        readOnly: true,
+        onTap: () => _pickTime(controller),
         decoration: InputDecoration(
           labelText: label,
-          suffixIcon: IconButton(
-            icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility, size: 20),
-            onPressed: () {
-              setState(() {
-                obscurePassword = !obscurePassword;
-              });
-            },
-          ),
+          suffixIcon: const Icon(Icons.access_time, size: 20),
           border: const UnderlineInputBorder(),
         ),
       ),

@@ -1,5 +1,7 @@
+import 'package:app_med/screens/client/client_configuration_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';
 import 'package:app_med/screens/client/client_notification_screen.dart';
+import 'package:app_med/widgets/cards/appointment_card.dart';
 import 'package:app_med/widgets/header/auth_black_app_bar.dart';
 import 'package:app_med/widgets/navbar.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,22 @@ class ClientCalendarScreen extends StatefulWidget {
 }
 
 class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
+  final Map<DateTime, List<Map<String, dynamic>>> _appointments = {
+    DateTime.utc(2025, 5, 13): [
+      {
+        'doctorName': 'Dr. Leonardo Reisdoefer',
+        'specialty': 'Dermatologista',
+        'time': '2:00 PM',
+        'address': 'Ipumirim, Rua Adilio Fontana',
+        'avatar': 'assets/images/doctor.png',
+      },
+    ],
+  };
+
+  List<Map<String, dynamic>> _getAppointmentsForDay(DateTime day) {
+    return _appointments[DateTime.utc(day.year, day.month, day.day)] ?? [];
+  }
+
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
@@ -21,10 +39,6 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ClientHomeScreen()));
         break;
       case 1:
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => ClientCalendarScreen()),
-        );
         break;
       case 2:
         Navigator.pushReplacement(
@@ -33,17 +47,23 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
         );
         break;
       case 3:
-      // Aqui você pode colocar outra tela (ex: Perfil)
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => ClientConfigurationScreen()),
+        );
+        break;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final appointments = _selectedDay != null ? _getAppointmentsForDay(_selectedDay!) : [];
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AuthBlackAppBar(
-        title: 'title',
-        subtitle: 'subtitle',
+        title: 'Calendário',
+        subtitle: 'Veja seus compromissos',
         avatarImage: 'assets/images/logo.png',
       ),
       body: SingleChildScrollView(
@@ -51,14 +71,14 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Container(
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: TableCalendar(
-                firstDay: DateTime.now(),
+                firstDay: DateTime.utc(2020, 1, 1),
                 lastDay: DateTime.utc(2030, 12, 31),
                 focusedDay: _focusedDay,
                 selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
@@ -92,6 +112,32 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
               ),
             ),
             const SizedBox(height: 25),
+
+            // Título
+            if (_selectedDay != null)
+              Text(
+                'Compromissos para ${_selectedDay!.day}/${_selectedDay!.month}',
+                style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.w600),
+              ),
+            const SizedBox(height: 10),
+
+            // Lista de consultas ou mensagem
+            if (appointments.isNotEmpty)
+              ...appointments.map(
+                (a) => AppointmentCard(
+                  doctorName: a['doctorName'],
+                  specialty: a['specialty'],
+                  date: _selectedDay!,
+                  time: a['time'],
+                  address: a['address'],
+                  avatarUrl: a['avatar'],
+                ),
+              ),
+            if (appointments.isEmpty && _selectedDay != null)
+              Text(
+                'Nenhum compromisso neste dia.',
+                style: GoogleFonts.inter(color: Colors.grey[700]),
+              ),
           ],
         ),
       ),

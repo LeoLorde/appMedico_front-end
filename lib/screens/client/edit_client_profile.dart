@@ -1,7 +1,6 @@
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/widgets/gender/gender_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 

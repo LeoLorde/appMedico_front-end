@@ -1,6 +1,3 @@
-import 'package:app_med/screens/client/client_configuration_screen.dart';
-import 'package:app_med/screens/client/client_home_screen.dart';
-import 'package:app_med/screens/client/client_notification_screen.dart';
 import 'package:app_med/screens/doctor/doctor_configuration_screen.dart';
 import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/screens/doctor/doctor_notification_screen.dart';

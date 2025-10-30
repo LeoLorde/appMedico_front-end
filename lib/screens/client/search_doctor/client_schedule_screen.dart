@@ -8,7 +8,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientScheduleScreen extends StatefulWidget {
   String id;
-  ClientScheduleScreen({super.key, required this.id});
+  final String? initialValue;
+  final Function(String?)? onChanged;
+
+  ClientScheduleScreen({super.key, required this.id, this.initialValue, this.onChanged});
 
   @override
   State<ClientScheduleScreen> createState() => _ClientScheduleScreenState();
@@ -18,6 +21,23 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   String? _selectedTime;
+  String? selectedPlan;
+
+  final List<String> plans = [
+    'Nenhum',
+    'Unimed',
+    'Bradesco Saúde',
+    'Amil',
+    'SulAmérica',
+    'Prevent Senior',
+    'Outro',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedPlan = widget.initialValue ?? 'Nenhum';
+  }
 
   final List<String> _availableTimes = [
     '9:00 AM',
@@ -29,6 +49,7 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
   ];
 
   final TextEditingController _reasonController = TextEditingController();
+  final TextEditingController _planController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -182,6 +203,27 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
+            ),
+
+            DropdownButtonFormField<String>(
+              value: selectedPlan,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+              ),
+              items: plans.map((String plan) {
+                return DropdownMenuItem<String>(
+                  value: plan,
+                  child: Text(plan, style: GoogleFonts.inter(fontSize: 14)),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() => selectedPlan = value);
+                if (widget.onChanged != null) widget.onChanged!(value);
+              },
             ),
 
             const SizedBox(height: 25),

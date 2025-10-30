@@ -1,7 +1,6 @@
 import 'package:app_med/connections/confirm_appointment.dart';
 import 'package:app_med/connections/pending_appointment.dart';
 import 'package:app_med/connections/refused_appointment.dart';
-import 'package:app_med/connections/search_appointment.dart';
 import 'package:app_med/models/appointment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:app_med/screens/doctor/doctor_calendar_screen.dart';

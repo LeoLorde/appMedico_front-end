@@ -5,7 +5,6 @@ import 'package:app_med/widgets/cards/client_notification_card.dart';
 import 'package:app_med/widgets/header/auth_black_app_bar.dart';
 import 'package:app_med/widgets/navbar.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientNotificationScreen extends StatefulWidget {
   @override

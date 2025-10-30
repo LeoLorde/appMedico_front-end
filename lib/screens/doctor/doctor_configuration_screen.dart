@@ -1,5 +1,3 @@
-import 'package:app_med/screens/client/client_calendar_screen.dart';
-import 'package:app_med/screens/client/client_home_screen.dart';
 import 'package:app_med/screens/doctor/doctor_calendar_screen.dart';
 import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/screens/doctor/doctor_notification_screen.dart';

@@ -1,7 +1,7 @@
 {
   "files.exclude": {
     "**/ios": true,
-    "**/android": true,
+    "**/android": false,
     "**/linux": true,
     "**/windows": true,
     "**/web": true,

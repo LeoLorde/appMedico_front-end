@@ -21,12 +21,15 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
 
-  void _handleLogin() async {
+  Future<void> _handleLogin() async {
     final response = await loginDoctor(email: emailController.text, senha: senhaController.text);
     if (response.containsKey("access_token")) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login funcionou")));
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', response['access_token']);
+      print("----");
+      print(response['user']);
+      print("----");
       await prefs.setString('username', response['user']['username']);
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
@@ -55,7 +58,12 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
             obscureText: true,
           ),
           SizedBox(height: 30),
-          BlackButton(label: "Login", onPressed: _handleLogin),
+          BlackButton(
+            label: "Login",
+            onPressed: () async {
+              await _handleLogin();
+            },
+          ),
           SizedBox(height: 20),
           WhiteButton(
             label: 'Criar Conta',

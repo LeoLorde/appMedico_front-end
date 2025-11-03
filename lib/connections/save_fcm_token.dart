@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-Future<Map> createFCM() async {
+Future<Map> createFCM(String jwt_token) async {
   final messaging = FirebaseMessaging.instance;
   final token = await messaging.getToken();
 
   final response = await http.post(
     Uri.parse("${dotenv.env['API_URL']}/fcm/create"),
-    headers: {'Content-Type': 'application/json'},
+    headers: {'Content-Type': 'application/json', "Authorization": jwt_token},
     body: jsonEncode({"fcm_token": token ?? "", "device_info": ""}),
   );
 

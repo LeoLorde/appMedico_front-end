@@ -13,6 +13,6 @@ Future<Map> loginClient({required String email, required String senha}) async {
     return {"Error": "erro na consulta"};
   }
   final decoded = jsonDecode(response.body);
-  await createFCM();
+  await createFCM(decoded["access_token"]);
   return {"access_token": decoded["access_token"]};
 }

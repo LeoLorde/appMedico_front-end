@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:label="app_med"
+        android:label="DoctorHub"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

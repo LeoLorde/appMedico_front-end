@@ -30,7 +30,6 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
       print("----");
       print(response['user']);
       print("----");
-      await prefs.setString('username', response['user']['username']);
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
   }

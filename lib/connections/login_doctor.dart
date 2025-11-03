@@ -13,6 +13,8 @@ Future<Map> loginDoctor({required String email, required String senha}) async {
     return {"Error": "erro na consulta"};
   }
   final decoded = jsonDecode(response.body);
+  print("CREATING FCM TOKEN");
   await createFCM(decoded["access_token"]);
+  print("FCM TOKEN CREATED");
   return {"access_token": decoded["access_token"]};
 }

@@ -1,4 +1,4 @@
-import 'package:app_med/connections/create_client.dart';
+import 'package:app_med/connections/client/create_client.dart';
 import 'package:app_med/models/client_model.dart';
 import 'package:app_med/screens/client/client_login/client_login_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';

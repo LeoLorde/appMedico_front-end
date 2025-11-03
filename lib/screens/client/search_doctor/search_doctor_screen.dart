@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:app_med/connections/search_doctor.dart';
+import 'package:app_med/connections/doctor/search_doctor.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/widgets/cards/doctor_search_card.dart';
 import 'package:app_med/widgets/header/search_app_bar.dart';

@@ -7,7 +7,7 @@ import 'package:app_med/widgets/header/auth_black_app_bar.dart';
 import 'package:app_med/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:app_med/connections/search_doc_appointment.dart';
+import 'package:app_med/connections/appointment/search_doc_appointment.dart';
 import 'package:intl/intl.dart';
 
 class DoctorHomeScreen extends StatefulWidget {

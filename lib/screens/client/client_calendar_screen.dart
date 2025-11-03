@@ -1,4 +1,4 @@
-import 'package:app_med/connections/search_appointment_by_day.dart';
+import 'package:app_med/connections/appointment/search_appointment_by_day.dart';
 import 'package:app_med/models/appointment_model.dart';
 import 'package:app_med/screens/client/client_configuration_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';

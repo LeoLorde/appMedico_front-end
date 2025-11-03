@@ -1,4 +1,4 @@
-import 'package:app_med/connections/search_doctor.dart';
+import 'package:app_med/connections/doctor/search_doctor.dart';
 import 'package:app_med/screens/client/search_doctor/client_schedule_screen.dart';
 import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:flutter/material.dart';

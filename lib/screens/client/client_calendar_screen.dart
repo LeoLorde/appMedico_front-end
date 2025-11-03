@@ -1,3 +1,5 @@
+import 'package:app_med/connections/search_appointment_by_day.dart';
+import 'package:app_med/models/appointment_model.dart';
 import 'package:app_med/screens/client/client_configuration_screen.dart';
 import 'package:app_med/screens/client/client_home_screen.dart';
 import 'package:app_med/screens/client/client_notification_screen.dart';
@@ -6,7 +8,9 @@ import 'package:app_med/widgets/header/auth_black_app_bar.dart';
 import 'package:app_med/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 class ClientCalendarScreen extends StatefulWidget {
   @override
@@ -14,24 +18,42 @@ class ClientCalendarScreen extends StatefulWidget {
 }
 
 class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
-  final Map<DateTime, List<Map<String, dynamic>>> _appointments = {
-    DateTime.utc(2025, 5, 13): [
-      {
-        'doctorName': 'Dr. Leonardo Reisdoefer',
-        'specialty': 'Dermatologista',
-        'time': '2:00 PM',
-        'address': 'Ipumirim, Rua Adilio Fontana',
-        'avatar': 'assets/images/doctor.png',
-      },
-    ],
-  };
-
-  List<Map<String, dynamic>> _getAppointmentsForDay(DateTime day) {
-    return _appointments[DateTime.utc(day.year, day.month, day.day)] ?? [];
-  }
-
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
+  String? _token;
+  Future<List<AppointmentModel>>? _appointmentsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDay = DateTime.now();
+    _loadTokenAndFetchAppointments(_selectedDay!);
+  }
+
+  Future<void> _loadTokenAndFetchAppointments(DateTime day) async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedToken = prefs.getString('access_token');
+
+    if (storedToken == null) {
+      print("⚠️ Nenhum token encontrado — talvez o usuário não esteja logado?");
+      return;
+    }
+
+    setState(() {
+      _token = storedToken;
+    });
+
+    _fetchAppointmentsForDay(day);
+  }
+
+  void _fetchAppointmentsForDay(DateTime day) {
+    if (_token == null) return;
+
+    final formattedDay = DateFormat('yyyy-MM-dd').format(day);
+    setState(() {
+      _appointmentsFuture = getAppointmentByDay(day: formattedDay, id: _token!);
+    });
+  }
 
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
@@ -57,8 +79,6 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final appointments = _selectedDay != null ? _getAppointmentsForDay(_selectedDay!) : [];
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AuthBlackAppBar(
@@ -87,6 +107,7 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
                     _selectedDay = selectedDay;
                     _focusedDay = focusedDay;
                   });
+                  _fetchAppointmentsForDay(selectedDay);
                 },
                 headerStyle: HeaderStyle(
                   formatButtonVisible: false,
@@ -113,7 +134,6 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
             ),
             const SizedBox(height: 25),
 
-            // Título
             if (_selectedDay != null)
               Text(
                 'Compromissos para ${_selectedDay!.day}/${_selectedDay!.month}',
@@ -121,23 +141,42 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
               ),
             const SizedBox(height: 10),
 
-            // Lista de consultas ou mensagem
-            if (appointments.isNotEmpty)
-              ...appointments.map(
-                (a) => AppointmentCard(
-                  doctorName: a['doctorName'],
-                  specialty: a['specialty'],
-                  date: _selectedDay!,
-                  time: a['time'],
-                  address: a['address'],
-                  avatarUrl: a['avatar'],
-                ),
-              ),
-            if (appointments.isEmpty && _selectedDay != null)
-              Text(
-                'Nenhum compromisso neste dia.',
-                style: GoogleFonts.inter(color: Colors.grey[700]),
-              ),
+            // 🧠 FutureBuilder para exibir as consultas
+            if (_appointmentsFuture != null)
+              FutureBuilder<List<AppointmentModel>>(
+                future: _appointmentsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text(
+                      'Erro ao carregar compromissos 😥',
+                      style: GoogleFonts.inter(color: Colors.red),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Text(
+                      'Nenhum compromisso neste dia.',
+                      style: GoogleFonts.inter(color: Colors.grey[700]),
+                    );
+                  } else {
+                    final appointments = snapshot.data!;
+                    return Column(
+                      children: appointments.map((a) {
+                        return AppointmentCard(
+                          doctorName: "Dr. ${a.doctorId}",
+                          specialty: a.motivo ?? 'Consulta',
+                          date: a.dataMarcada ?? _selectedDay!,
+                          time: DateFormat('HH:mm').format(a.dataMarcada ?? DateTime.now()),
+                          address: a.planoDeSaude ?? "Endereço não informado",
+                          avatarUrl: 'assets/images/doctor.png',
+                        );
+                      }).toList(),
+                    );
+                  }
+                },
+              )
+            else
+              const Center(child: CircularProgressIndicator()),
           ],
         ),
       ),

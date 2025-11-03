@@ -9,7 +9,7 @@ Future<Map> createFCM(String jwt_token) async {
 
   final response = await http.post(
     Uri.parse("${dotenv.env['API_URL']}/fcm/create"),
-    headers: {'Content-Type': 'application/json', "Authorization": jwt_token},
+    headers: {'Content-Type': 'application/json', "Authorization": "Bearer $jwt_token"},
     body: jsonEncode({"fcm_token": token ?? "", "device_info": ""}),
   );
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_med/connections/doctor/search_doctor.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/widgets/cards/doctor_search_card.dart';
+import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:app_med/widgets/header/search_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -53,25 +54,56 @@ class _SearchDoctorScreenState extends State<SearchDoctorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SearchAppBar(
-        title: 'Ache um Doutor',
-        onBackPressed: () => Navigator.pop(context),
-        controller: controller,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(12),
+      appBar: AuthAppBar(title: 'Ache um doutor', onBackTap: () => Navigator.pop(context)),
+      body: Column(
         children: [
-          doctors.isEmpty
-              ? const Center(child: Text('Nenhum doutor encontrado.'))
-              : ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: doctors.length,
-                  itemBuilder: (context, index) {
-                    DoctorModel doctor = doctors[index];
-                    return DoctorSearchCard(doctor: doctor, imageUrl: '');
-                  },
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Container(
+              height: 50,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+              child: TextField(
+                controller: controller,
+                decoration: const InputDecoration(
+                  hintText: 'Pesquisar',
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 10),
+
+          Expanded(
+            child: doctors.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.search_off, size: 70, color: Colors.grey),
+                        SizedBox(height: 20),
+                        Text(
+                          'Nenhum doutor encontrado.',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  )
+                : ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                    itemCount: doctors.length,
+                    itemBuilder: (context, index) {
+                      final doctor = doctors[index];
+                      return DoctorSearchCard(doctor: doctor, imageUrl: '');
+                    },
+                  ),
+          ),
         ],
       ),
     );

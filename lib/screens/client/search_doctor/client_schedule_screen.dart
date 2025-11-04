@@ -205,15 +205,30 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
               ),
             ),
 
+            SizedBox(height: 25),
+            Text(
+              'Plano de saúde',
+              style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+            SizedBox(height: 10),
             DropdownButtonFormField<String>(
               value: selectedPlan,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                border: OutlineInputBorder(
+                filled: true, // pra preencher o fundo
+                fillColor: Colors.white, // fundo branco
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
-                  borderSide: const BorderSide(color: Colors.grey),
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: const BorderSide(color: Colors.grey, width: 1),
                 ),
               ),
+              icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black54),
+              dropdownColor: Colors.white, // fundo branco do menu
+              style: GoogleFonts.inter(fontSize: 14, color: Colors.black87),
               items: plans.map((String plan) {
                 return DropdownMenuItem<String>(
                   value: plan,

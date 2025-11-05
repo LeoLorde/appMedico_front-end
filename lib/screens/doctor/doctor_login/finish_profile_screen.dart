@@ -1,4 +1,4 @@
-import 'package:app_med/screens/doctor/doctor_login/resgister_completed.dart';
+import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/buttons/black_button.dart';
 import 'package:app_med/widgets/forms/forms_header.dart';
@@ -240,7 +240,7 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResgisterCompleted()),
+                      MaterialPageRoute(builder: (context) => DoctorHomeScreen()),
                     );
                   },
                 ),

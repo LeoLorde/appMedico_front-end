@@ -1,4 +1,5 @@
 import 'package:app_med/connections/appointment/create_appointment.dart';
+import 'package:app_med/connections/expedient/get_available_timestamps.dart';
 import 'package:app_med/screens/client/confirmation_screen.dart';
 import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -37,16 +38,10 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
   void initState() {
     super.initState();
     selectedPlan = widget.initialValue ?? 'Nenhum';
+    _availableTimesFuture = getAvailableTimestamps(id: widget.id);
   }
 
-  final List<String> _availableTimes = [
-    '9:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-    '1:00 PM',
-    '2:00 PM',
-    '3:00 PM',
-  ];
+  late Future<List<String>> _availableTimesFuture;
 
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _planController = TextEditingController();
@@ -145,42 +140,60 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
 
             // --- HORÁRIOS DISPONÍVEIS ---
             if (_selectedDay != null)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Horários disponíveis - Dia ${_selectedDay!.day}',
-                    style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    children: _availableTimes.map((time) {
-                      final isSelected = _selectedTime == time;
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() => _selectedTime = time);
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: isSelected ? Colors.black : Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.grey.shade300),
-                          ),
-                          child: Text(
-                            time,
-                            style: GoogleFonts.inter(
-                              fontWeight: FontWeight.w500,
-                              color: isSelected ? Colors.white : Colors.black,
+              FutureBuilder<List<String>>(
+                future: _availableTimesFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text(
+                      'Erro ao carregar horários.',
+                      style: GoogleFonts.inter(color: Colors.red),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Text(
+                      'Nenhum horário disponível para este dia.',
+                      style: GoogleFonts.inter(color: Colors.grey),
+                    );
+                  }
+
+                  final times = snapshot.data!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Horários disponíveis - Dia ${_selectedDay!.day}',
+                        style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: times.map((time) {
+                          final isSelected = _selectedTime == time;
+                          return GestureDetector(
+                            onTap: () => setState(() => _selectedTime = time),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                              decoration: BoxDecoration(
+                                color: isSelected ? Colors.black : Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey.shade300),
+                              ),
+                              child: Text(
+                                time,
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w500,
+                                  color: isSelected ? Colors.white : Colors.black,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  );
+                },
               ),
 
             const SizedBox(height: 25),

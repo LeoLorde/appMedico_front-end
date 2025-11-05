@@ -1,6 +1,8 @@
 import 'package:app_med/screens/doctor/doctor_login/resgister_completed.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/buttons/black_button.dart';
+import 'package:app_med/widgets/forms/forms_header.dart';
+import 'package:app_med/widgets/forms/forms_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -15,8 +17,8 @@ class FinishProfileScreen extends StatefulWidget {
 class _FinishProfileScreenState extends State<FinishProfileScreen> {
   final TextEditingController crmController = TextEditingController();
   final TextEditingController bioController = TextEditingController();
-  final TextEditingController startTimeController = TextEditingController(text: "06:00");
-  final TextEditingController endTimeController = TextEditingController(text: "18:00");
+  final TextEditingController startTimeController = TextEditingController();
+  final TextEditingController endTimeController = TextEditingController();
   final TextEditingController lunchStartController = TextEditingController();
   final TextEditingController lunchEndController = TextEditingController();
 
@@ -54,6 +56,7 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
 
   Future<void> _pickTime(TextEditingController controller) async {
     final picked = await showTimePicker(context: context, initialTime: TimeOfDay.now());
+
     if (picked != null) {
       controller.text = picked.format(context);
     }
@@ -71,41 +74,49 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
               const SizedBox(height: 20),
               AppLogo(),
               const SizedBox(height: 10),
-              const Text("Seu Perfil", style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-              const Text("Termine seu perfil para começar", style: TextStyle(color: Colors.grey)),
+              FormsHeader(title: "Bem-Vindo!", subtitle: "Criar conta para Profissional"),
 
-              const SizedBox(height: 30),
+              const SizedBox(height: 50),
 
               GestureDetector(
                 onTap: _pickImage,
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.grey[200],
-                  backgroundImage: _imageFile != null ? FileImage(_imageFile!) : null,
-                  child: _imageFile == null
-                      ? const Icon(Icons.person, size: 60, color: Colors.grey)
-                      : null,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 70,
+                      backgroundColor: Colors.grey[200],
+                      backgroundImage: _imageFile != null ? FileImage(_imageFile!) : null,
+                      child: _imageFile == null
+                          ? const Icon(Icons.person, size: 60, color: Colors.grey)
+                          : null,
+                    ),
+                    Positioned(
+                      bottom: 4,
+                      right: 4,
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.camera_alt, color: Colors.white, size: 22),
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 45),
 
-              TextField(
-                controller: crmController,
-                decoration: InputDecoration(
-                  labelText: "CRM",
-                  hintText: "123456/SC",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                ),
-              ),
+              FormsTextField(label: "CRM", hintText: "123456/SC", controller: crmController),
 
               const SizedBox(height: 25),
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Adicionar Expediente",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
               const SizedBox(height: 10),
@@ -133,20 +144,23 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
               const SizedBox(height: 15),
 
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: FormsTextField(
+                      label: "Início",
+                      hintText: "08:00",
                       controller: startTimeController,
-                      decoration: const InputDecoration(labelText: "Início"),
                       readOnly: true,
                       onTap: () => _pickTime(startTimeController),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 40),
                   Expanded(
-                    child: TextField(
+                    child: FormsTextField(
+                      label: "Fim",
+                      hintText: "18:00",
                       controller: endTimeController,
-                      decoration: const InputDecoration(labelText: "Fim"),
                       readOnly: true,
                       onTap: () => _pickTime(endTimeController),
                     ),
@@ -154,31 +168,36 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 25),
+
               const Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Horário de Almoço (opcional)",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  "Horário de almoço (opcional)",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
 
+              // HORÁRIOS DE ALMOÇO
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: FormsTextField(
+                      label: "Início",
+                      hintText: "12:00",
                       controller: lunchStartController,
-                      decoration: const InputDecoration(labelText: "Início do Almoço"),
                       readOnly: true,
                       onTap: () => _pickTime(lunchStartController),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 40),
                   Expanded(
-                    child: TextField(
+                    child: FormsTextField(
+                      label: "Fim",
+                      hintText: "13:00",
                       controller: lunchEndController,
-                      decoration: const InputDecoration(labelText: "Fim do Almoço"),
                       readOnly: true,
                       onTap: () => _pickTime(lunchEndController),
                     ),

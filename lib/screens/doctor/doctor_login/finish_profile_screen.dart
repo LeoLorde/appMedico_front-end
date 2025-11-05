@@ -1,3 +1,4 @@
+import 'package:app_med/connections/expedient/create_expedient.dart';
 import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/buttons/black_button.dart';
@@ -25,8 +26,8 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
   final ImagePicker _picker = ImagePicker();
   File? _imageFile;
 
-  final List<String> days = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
-  Set<String> selectedDays = {};
+  final List<String> days = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sabado"];
+  List<String> selectedDays = [];
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -237,7 +238,13 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
                 height: 48,
                 child: BlackButton(
                   label: 'Concluir',
-                  onPressed: () {
+                  onPressed: () async {
+                    final response = await createExpediente(
+                      horario_fim: startTimeController.text,
+                      horario_inicio: endTimeController.text,
+                      dias_trabalho: selectedDays,
+                    );
+
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => DoctorHomeScreen()),

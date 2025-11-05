@@ -8,11 +8,11 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ClientScheduleScreen extends StatefulWidget {
-  String id;
+  final String id;
   final String? initialValue;
   final Function(String?)? onChanged;
 
-  ClientScheduleScreen({super.key, required this.id, this.initialValue, this.onChanged});
+  const ClientScheduleScreen({super.key, required this.id, this.initialValue, this.onChanged});
 
   @override
   State<ClientScheduleScreen> createState() => _ClientScheduleScreenState();
@@ -24,6 +24,8 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
   String? _selectedTime;
   String? selectedPlan;
 
+  late Future<List<String>> _availableTimesFuture;
+
   final List<String> plans = [
     'Nenhum',
     'Unimed',
@@ -34,17 +36,31 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
     'Outro',
   ];
 
+  final TextEditingController _reasonController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     selectedPlan = widget.initialValue ?? 'Nenhum';
-    _availableTimesFuture = getAvailableTimestamps(id: widget.id);
+    // inicia vazio até o usuário selecionar um dia
+    _availableTimesFuture = Future.value([]);
   }
 
-  late Future<List<String>> _availableTimesFuture;
+  // função auxiliar pra formatar a data como yyyy-MM-dd
+  String _formatDate(DateTime date) {
+    return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+  }
 
-  final TextEditingController _reasonController = TextEditingController();
-  final TextEditingController _planController = TextEditingController();
+  // quando o usuário clica em um dia no calendário
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    setState(() {
+      _selectedDay = selectedDay;
+      _focusedDay = focusedDay;
+      _selectedTime = null;
+      // chama o endpoint pra buscar horários desse dia
+      _availableTimesFuture = getAvailableTimestamps(id: widget.id, date: _formatDate(selectedDay));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,12 +123,7 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
                 lastDay: DateTime.utc(2030, 12, 31),
                 focusedDay: _focusedDay,
                 selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-                onDaySelected: (selectedDay, focusedDay) {
-                  setState(() {
-                    _selectedDay = selectedDay;
-                    _focusedDay = focusedDay;
-                  });
-                },
+                onDaySelected: _onDaySelected,
                 headerStyle: HeaderStyle(
                   formatButtonVisible: false,
                   titleCentered: true,
@@ -218,17 +229,19 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
               ),
             ),
 
-            SizedBox(height: 25),
+            const SizedBox(height: 25),
+
+            // --- PLANO DE SAÚDE ---
             Text(
               'Plano de saúde',
               style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             DropdownButtonFormField<String>(
               value: selectedPlan,
               decoration: InputDecoration(
-                filled: true, // pra preencher o fundo
-                fillColor: Colors.white, // fundo branco
+                filled: true,
+                fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -240,7 +253,7 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
                 ),
               ),
               icon: const Icon(Icons.keyboard_arrow_down, color: Colors.black54),
-              dropdownColor: Colors.white, // fundo branco do menu
+              dropdownColor: Colors.white,
               style: GoogleFonts.inter(fontSize: 14, color: Colors.black87),
               items: plans.map((String plan) {
                 return DropdownMenuItem<String>(
@@ -261,45 +274,44 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: () async {
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                  final token = await prefs.get('access_token');
-                  final timeParts = _selectedTime!.split(' ');
-                  final hourMinute = timeParts[0].split(':');
-                  int hour = int.parse(hourMinute[0]);
-                  int minute = int.parse(hourMinute[1]);
+                onPressed: _selectedDay != null && _selectedTime != null
+                    ? () async {
+                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        final token = await prefs.get('access_token');
 
-                  if (timeParts[1] == 'PM' && hour != 12) hour += 12;
-                  if (timeParts[1] == 'AM' && hour == 12) hour = 0;
+                        final timeParts = _selectedTime!.split(':');
+                        int hour = int.parse(timeParts[0]);
+                        int minute = int.parse(timeParts[1].split(':')[0]);
+                        final selectedDateTime = DateTime(
+                          _selectedDay!.year,
+                          _selectedDay!.month,
+                          _selectedDay!.day,
+                          hour,
+                          minute,
+                        );
 
-                  final selectedDateTime = DateTime(
-                    _selectedDay!.year,
-                    _selectedDay!.month,
-                    _selectedDay!.day,
-                    hour,
-                    minute,
-                  );
+                        await createAppointment(
+                          client_id: token,
+                          doctor_id: widget.id,
+                          date: selectedDateTime,
+                          motivo: _reasonController.text,
+                          plano: selectedPlan ?? "",
+                        );
 
-                  await createAppointment(
-                    client_id: token,
-                    doctor_id: widget.id,
-                    date: selectedDateTime,
-                    motivo: _reasonController.text,
-                    plano: "",
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ConfirmationScreen(
-                        doctorName: 'doctorName',
-                        specialty: 'specialty',
-                        date: 'date',
-                        time: 'time',
-                        address: 'address',
-                      ),
-                    ),
-                  );
-                },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ConfirmationScreen(
+                              doctorName: 'Dr. Leonardo Reisdoefer',
+                              specialty: 'Dermatologista',
+                              date: 'date',
+                              time: 'time',
+                              address: 'address',
+                            ),
+                          ),
+                        );
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: _selectedDay != null && _selectedTime != null
                       ? Colors.black

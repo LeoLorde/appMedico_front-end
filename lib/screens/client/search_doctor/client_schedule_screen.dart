@@ -251,10 +251,26 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
                 onPressed: () async {
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                   final token = await prefs.get('access_token');
+                  final timeParts = _selectedTime!.split(' ');
+                  final hourMinute = timeParts[0].split(':');
+                  int hour = int.parse(hourMinute[0]);
+                  int minute = int.parse(hourMinute[1]);
+
+                  if (timeParts[1] == 'PM' && hour != 12) hour += 12;
+                  if (timeParts[1] == 'AM' && hour == 12) hour = 0;
+
+                  final selectedDateTime = DateTime(
+                    _selectedDay!.year,
+                    _selectedDay!.month,
+                    _selectedDay!.day,
+                    hour,
+                    minute,
+                  );
+
                   await createAppointment(
                     client_id: token,
                     doctor_id: widget.id,
-                    date: _selectedDay,
+                    date: selectedDateTime,
                     motivo: _reasonController.text,
                     plano: "",
                   );

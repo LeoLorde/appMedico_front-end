@@ -16,7 +16,7 @@ class FinishProfileScreen extends StatefulWidget {
 
 class _FinishProfileScreenState extends State<FinishProfileScreen> {
   final TextEditingController crmController = TextEditingController();
-  final TextEditingController bioController = TextEditingController();
+  final TextEditingController timeController = TextEditingController();
   final TextEditingController startTimeController = TextEditingController();
   final TextEditingController endTimeController = TextEditingController();
   final TextEditingController lunchStartController = TextEditingController();
@@ -39,7 +39,7 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
 
   void _saveProfile() {
     final crm = crmController.text;
-    final bio = bioController.text;
+    final tempo = timeController.text;
     final dias = selectedDays.join(', ');
     final horarios = {
       "inicio": startTimeController.text,
@@ -49,7 +49,7 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
     };
 
     debugPrint("CRM: $crm");
-    debugPrint("Bio: $bio");
+    debugPrint("Tempo: $tempo");
     debugPrint("Dias: $dias");
     debugPrint("Horários: $horarios");
   }
@@ -205,15 +205,30 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
                 ],
               ),
 
-              const SizedBox(height: 20),
-              TextField(
-                controller: bioController,
-                maxLength: 200,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  labelText: "Descreva sua bio...",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              const SizedBox(height: 25),
+
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Tempo médio por consulta",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+              ),
+              const SizedBox(height: 15),
+              TextField(
+                keyboardType: TextInputType.number,
+                controller: timeController,
+                decoration: InputDecoration(
+                  hintText: "20 minutos",
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15),
+                    borderSide: const BorderSide(color: Colors.black, width: 1),
+                  ),
+                ),
+                style: const TextStyle(fontSize: 16, color: Colors.black),
               ),
 
               const SizedBox(height: 20),

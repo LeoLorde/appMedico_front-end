@@ -40,6 +40,21 @@ class _ClientLoginScreenState extends State<ClientLoginScreen> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', access_token);
 
+      if (response.containsKey('user')) {
+        final user = response['user'];
+        final username = user['username'] ?? 'Usuário';
+        final userEmail = user['email'] ?? 'E-mail';
+
+        await prefs.setString('username', username);
+        await prefs.setString('email', userEmail);
+
+        print("----");
+        print("Cliente logado: $username | Email: $userEmail");
+        print("----");
+      } else {
+        print("⚠️ Nenhum usuário retornado do backend!");
+      }
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => ClientHomeScreen()),

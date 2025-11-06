@@ -27,9 +27,21 @@ class _DoctorLoginScreenState extends State<DoctorLoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login funcionou")));
       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setString('access_token', response['access_token']);
-      print("----");
-      print(response['user']);
-      print("----");
+      if (response.containsKey('user')) {
+        final user = response['user'];
+
+        final username = user['username'] ?? 'Usuário';
+        final email = user['email'] ?? 'E-mail';
+
+        await prefs.setString('username', username);
+        await prefs.setString('email', email);
+
+        print("----");
+        print("Usuário logado: $username | Email: $email");
+        print("----");
+      } else {
+        print("⚠️ Nenhum usuário retornado do backend!");
+      }
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorHomeScreen()));
   }

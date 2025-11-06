@@ -1,11 +1,13 @@
 import 'package:app_med/connections/appointment/create_appointment.dart';
 import 'package:app_med/connections/expedient/get_available_timestamps.dart';
+import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/client/confirmation_screen.dart';
 import 'package:app_med/widgets/header/auth_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_med/connections/doctor/search_doctor.dart';
 
 class ClientScheduleScreen extends StatefulWidget {
   final String id;
@@ -23,6 +25,7 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
   DateTime? _selectedDay;
   String? _selectedTime;
   String? selectedPlan;
+  DoctorModel? doctor;
 
   late Future<List<String>> _availableTimesFuture;
 
@@ -44,6 +47,15 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
     selectedPlan = widget.initialValue ?? 'Nenhum';
     // inicia vazio até o usuário selecionar um dia
     _availableTimesFuture = Future.value([]);
+
+    _loadDoctor();
+  }
+
+  Future<void> _loadDoctor() async {
+    final fetchedDoctor = await getDoctorById(id: widget.id);
+    setState(() {
+      doctor = fetchedDoctor;
+    });
   }
 
   // função auxiliar pra formatar a data como yyyy-MM-dd
@@ -91,11 +103,11 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dr. Leonardo Reisdoefer',
+                        doctor?.username ?? 'Carregando...',
                         style: GoogleFonts.inter(fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       Text(
-                        'Dermatologista',
+                        doctor?.especialidade ?? 'Carregando...',
                         style: GoogleFonts.inter(fontSize: 14, color: Colors.grey[700]),
                       ),
                     ],

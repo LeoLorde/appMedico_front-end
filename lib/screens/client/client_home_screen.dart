@@ -17,6 +17,22 @@ class ClientHomeScreen extends StatefulWidget {
 }
 
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
+  String? _username;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedName = prefs.getString('username') ?? "Usuário";
+    setState(() {
+      _username = storedName;
+    });
+  }
+
   Future<List<AppointmentModel>> fetchAppointments() async {
     final prefs = await SharedPreferences.getInstance();
     final storedToken = prefs.getString('access_token') ?? "";
@@ -54,7 +70,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       backgroundColor: Colors.white,
       appBar: HomeAppBar(
         greeting: 'Bom dia!',
-        userName: 'Maurício Reisdoefer',
+        userName: _username ?? "Usuário",
         avatarImage: 'assets/images/logo.png',
         onSearchTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => SearchDoctorScreen()));

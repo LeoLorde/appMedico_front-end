@@ -2,7 +2,7 @@ import 'package:app_med/screens/doctor/doctor_calendar_screen.dart';
 import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/screens/doctor/doctor_notification_screen.dart';
 import 'package:app_med/screens/shared/faq_screen.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_med/widgets/header/auth_black_app_bar.dart';
 import 'package:app_med/widgets/navbar.dart';
 
@@ -16,6 +16,24 @@ class DoctorConfigurationScreen extends StatefulWidget {
 
 class _DoctorConfigurationScreenState extends State<DoctorConfigurationScreen> {
   bool _notificationsEnabled = true;
+  String? _username;
+  String? _useremail;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedName = prefs.getString('username') ?? "Usuário";
+    final storedEmail = prefs.getString('email') ?? "E-mail";
+    setState(() {
+      _username = storedName;
+      _useremail = storedEmail;
+    });
+  }
 
   void _onItemTapped(BuildContext context, int index) {
     switch (index) {
@@ -63,7 +81,7 @@ class _DoctorConfigurationScreenState extends State<DoctorConfigurationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Luísio de Azevedo',
+                        _username ?? "Usuário",
                         style: GoogleFonts.inter(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -71,7 +89,7 @@ class _DoctorConfigurationScreenState extends State<DoctorConfigurationScreen> {
                         ),
                       ),
                       Text(
-                        'medico@exemplo.com',
+                        _useremail ?? "E-mail",
                         style: GoogleFonts.inter(fontSize: 16, color: Colors.grey[600]),
                       ),
                       const SizedBox(height: 8),

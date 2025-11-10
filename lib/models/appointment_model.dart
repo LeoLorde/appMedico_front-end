@@ -1,3 +1,5 @@
+import 'package:app_med/models/doctor_model.dart';
+
 class AppointmentModel {
   String? id;
   DateTime? dataMarcada;
@@ -6,6 +8,7 @@ class AppointmentModel {
   String? isConfirmed;
   String? motivo;
   String? planoDeSaude;
+  DoctorModel? doctor;
 
   AppointmentModel({
     this.id,
@@ -15,6 +18,7 @@ class AppointmentModel {
     this.isConfirmed,
     this.motivo,
     this.planoDeSaude,
+    this.doctor,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,7 +33,7 @@ class AppointmentModel {
     };
   }
 
-  factory AppointmentModel.fromMap(Map<String, dynamic> map) {
+  factory AppointmentModel.fromMap(Map<dynamic, dynamic> map) {
     return AppointmentModel(
       id: map['id'],
       dataMarcada: map['data_marcada'] != null ? DateTime.parse(map['data_marcada']) : null,

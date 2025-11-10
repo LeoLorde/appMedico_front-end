@@ -36,7 +36,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   Future<List<AppointmentModel>> fetchAppointments() async {
     final prefs = await SharedPreferences.getInstance();
     final storedToken = prefs.getString('access_token') ?? "";
-    return await getAppointmentByClient(id: storedToken);
+    return await getAppointmentByClient(token: storedToken);
   }
 
   void _onItemTapped(BuildContext context, int index) {
@@ -79,7 +79,6 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       body: FutureBuilder<List<AppointmentModel>>(
         future: fetchAppointments(),
         builder: (context, snapshot) {
-          // 🔄 Enquanto carrega
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
@@ -98,7 +97,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             itemBuilder: (context, index) {
               final appt = appointments[index];
               return DoctorCard(
-                doctor: DoctorModel(), // tu pode passar o modelo real do doutor depois
+                doctor: appt.doctor!, // tu pode passar o modelo real do doutor depois
                 imageUrl: 'assets/images/logo.png',
                 hour:
                     '${appt.dataMarcada?.hour.toString().padLeft(2, '0')}:${appt.dataMarcada?.minute.toString().padLeft(2, '0')}',

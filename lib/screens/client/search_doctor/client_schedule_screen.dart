@@ -302,22 +302,25 @@ class _ClientScheduleScreenState extends State<ClientScheduleScreen> {
                           minute,
                         );
 
-                        await createAppointment(
+                        final response = await createAppointment(
                           client_id: token,
                           doctor_id: widget.id,
                           date: selectedDateTime,
                           motivo: _reasonController.text,
                           plano: selectedPlan ?? "",
                         );
+                        print(response["appointment"]);
+                        final List<String> date_time = response["appointment"]["data_marcada"]
+                            .split('T');
 
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ConfirmationScreen(
-                              doctorName: 'Dr. Leonardo Reisdoefer',
-                              specialty: 'Dermatologista',
-                              date: 'date',
-                              time: 'time',
+                            builder: (context) => ConfirmationScreen(
+                              doctorName: response["doctor"]["username"],
+                              specialty: response["doctor"]["especialidade"],
+                              date: date_time[0],
+                              time: date_time[1],
                               address: 'address',
                             ),
                           ),

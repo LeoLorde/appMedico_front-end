@@ -25,6 +25,6 @@ Future<Map> createAppointment({
   if (response.statusCode != 201) {
     return {"Error": "${jsonDecode(response.body)}"};
   }
-
-  return {"Message": "Deu boa", "appointment": ""};
+  final decoded = jsonDecode(response.body)["data"];
+  return {"Message": "Deu boa", "appointment": decoded["appointment"], "doctor": decoded["doctor"]};
 }

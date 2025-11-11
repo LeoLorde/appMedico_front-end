@@ -240,8 +240,8 @@ class _FinishProfileScreenState extends State<FinishProfileScreen> {
                   label: 'Concluir',
                   onPressed: () async {
                     final response = await createExpediente(
-                      horario_fim: startTimeController.text,
-                      horario_inicio: endTimeController.text,
+                      horario_fim: endTimeController.text,
+                      horario_inicio: startTimeController.text,
                       dias_trabalho: selectedDays,
                     );
 

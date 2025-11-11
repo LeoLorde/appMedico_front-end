@@ -8,6 +8,7 @@ import 'package:app_med/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_med/connections/appointment/search_doc_appointment.dart';
+import 'package:app_med/connections/doctor/get_self_doctor.dart';
 import 'package:intl/intl.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
@@ -23,7 +24,25 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
   void initState() {
     super.initState();
     _loadAgendas();
-    _loadUsername();
+    _loadDoctorData();
+  }
+
+  /// 🔹 Busca os dados do médico autenticado via API
+  Future<void> _loadDoctorData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final storedToken = prefs.getString('access_token') ?? "";
+
+    try {
+      final doctor = await getSelfDoctor(token: storedToken);
+      setState(() {
+        _username = doctor.username;
+      });
+    } catch (e) {
+      print('Erro ao buscar dados do médico: $e');
+      setState(() {
+        _username = "Usuário";
+      });
+    }
   }
 
   Future<void> _loadAgendas() async {
@@ -34,18 +53,9 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     });
   }
 
-  Future<void> _loadUsername() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedName = prefs.getString('username') ?? "Usuário";
-    setState(() {
-      _username = storedName;
-    });
-  }
-
   String _formatarData(dynamic dataMarcada) {
     try {
       if (dataMarcada == null) return 'Sem hora';
-
       DateTime data;
 
       if (dataMarcada is String) {
@@ -127,7 +137,6 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     itemBuilder: (context, index) {
                       final item = agendas[index];
                       final data = item.toMap();
-
                       final horaFormatada = _formatarData(data["data_marcada"]);
 
                       return ScheduleCard(

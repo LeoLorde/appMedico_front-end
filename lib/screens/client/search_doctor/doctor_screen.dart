@@ -47,7 +47,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
                   children: [
                     const CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/images/logo.png'),
+                      backgroundImage: AssetImage('assets/images/user_icon.png'),
                     ),
                     const SizedBox(width: 15),
                     Expanded(

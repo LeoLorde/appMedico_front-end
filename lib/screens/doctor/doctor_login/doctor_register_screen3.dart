@@ -2,7 +2,6 @@ import 'package:app_med/connections/doctor/create_doctor.dart';
 import 'package:app_med/connections/doctor/login_doctor.dart';
 import 'package:app_med/models/doctor_model.dart';
 import 'package:app_med/screens/client/client_login/client_login_screen.dart';
-import 'package:app_med/screens/doctor/doctor_home_screen.dart';
 import 'package:app_med/screens/doctor/doctor_login/finish_profile_screen.dart';
 import 'package:app_med/widgets/app_logo.dart';
 import 'package:app_med/widgets/forms/auth_scaffold.dart';

@@ -1,4 +1,3 @@
-import 'package:app_med/models/appointment_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

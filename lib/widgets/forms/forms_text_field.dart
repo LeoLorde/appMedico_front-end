@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
+import 'package:app_med/utils/responsive_helper.dart';
 
 class FormsTextField extends StatelessWidget {
   final String label;
@@ -24,25 +25,36 @@ class FormsTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = ResponsiveHelper(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: GoogleFonts.inter(fontSize: 18, fontWeight: FontWeight.w600, color: Colors.black),
+          style: GoogleFonts.inter(
+            fontSize: responsive.fontSize(18),
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: responsive.height(10)),
         TextField(
           controller: controller,
           obscureText: obscureText,
           inputFormatters: inputFormatters,
           readOnly: readOnly ?? false,
           onTap: onTap,
+          style: GoogleFonts.inter(fontSize: responsive.fontSize(16)),
           decoration: InputDecoration(
             hintText: hintText,
+            hintStyle: GoogleFonts.inter(fontSize: responsive.fontSize(16)),
             filled: true,
             fillColor: Colors.white,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: responsive.width(16),
+              vertical: responsive.height(12),
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(color: Colors.black, width: 1),

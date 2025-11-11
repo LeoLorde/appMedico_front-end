@@ -3,6 +3,8 @@ import 'package:app_med/widgets/gender/gender_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:app_med/utils/responsive_helper.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final ClientModel client;
@@ -48,9 +50,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = ResponsiveHelper(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Editar Perfil", style: TextStyle(color: Colors.black)),
+        title: Text("Editar Perfil", style: GoogleFonts.inter(color: Colors.black)),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
@@ -60,7 +64,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        padding: EdgeInsets.symmetric(
+          horizontal: responsive.width(24),
+          vertical: responsive.height(16),
+        ),
         child: Column(
           children: [
             // Foto do perfil
@@ -71,38 +78,48 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   alignment: Alignment.center,
                   children: [
                     CircleAvatar(
-                      radius: 55,
+                      radius: responsive.width(55),
                       backgroundImage: _imageFile != null
                           ? FileImage(_imageFile!)
                           : const AssetImage('assets/images/logo.png') as ImageProvider,
                     ),
                     Container(
-                      width: 110,
-                      height: 110,
+                      width: responsive.width(110),
+                      height: responsive.width(110),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.black.withOpacity(0.4),
                       ),
-                      child: const Icon(Icons.camera_alt, color: Colors.white, size: 32),
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: responsive.fontSize(32),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: responsive.height(24)),
 
             // Campos editáveis
-            _buildEditableField("Nome", nameController, Icons.edit),
-            _buildEditableField("Email", emailController, Icons.edit),
-            _buildPasswordField('Nova senha', passwordController),
-            _buildPasswordField('Confirmar senha', confirmPasswordController),
+            _buildEditableField("Nome", nameController, Icons.edit, responsive),
+            _buildEditableField("Email", emailController, Icons.edit, responsive),
+            _buildPasswordField('Nova senha', passwordController, responsive),
+            _buildPasswordField('Confirmar senha', confirmPasswordController, responsive),
 
-            const SizedBox(height: 16),
+            SizedBox(height: responsive.height(16)),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text("Gênero", style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+              child: Text(
+                "Gênero",
+                style: GoogleFonts.inter(
+                  fontSize: responsive.fontSize(16),
+                  color: Colors.grey[700],
+                ),
+              ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: responsive.height(8)),
 
             // Seletor de gênero
             GenderSelector(
@@ -114,19 +131,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               },
             ),
 
-            const SizedBox(height: 28),
+            SizedBox(height: responsive.height(28)),
 
             // Botão confirmar
             SizedBox(
               width: double.infinity,
-              height: 48,
+              height: responsive.height(48),
               child: ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
-                child: const Text("Salvar", style: TextStyle(color: Colors.white, fontSize: 16)),
+                child: Text(
+                  "Salvar",
+                  style: GoogleFonts.inter(color: Colors.white, fontSize: responsive.fontSize(16)),
+                ),
               ),
             ),
           ],
@@ -135,30 +155,46 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Widget _buildEditableField(String label, TextEditingController controller, IconData icon) {
+  Widget _buildEditableField(
+    String label,
+    TextEditingController controller,
+    IconData icon,
+    ResponsiveHelper responsive,
+  ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: responsive.height(16)),
       child: TextField(
         controller: controller,
+        style: GoogleFonts.inter(fontSize: responsive.fontSize(16)),
         decoration: InputDecoration(
           labelText: label,
-          suffixIcon: Icon(icon, size: 20),
+          labelStyle: GoogleFonts.inter(fontSize: responsive.fontSize(16)),
+          suffixIcon: Icon(icon, size: responsive.fontSize(20)),
           border: const UnderlineInputBorder(),
         ),
       ),
     );
   }
 
-  Widget _buildPasswordField(String label, TextEditingController controller) {
+  Widget _buildPasswordField(
+    String label,
+    TextEditingController controller,
+    ResponsiveHelper responsive,
+  ) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: responsive.height(16)),
       child: TextField(
         controller: controller,
         obscureText: obscurePassword,
+        style: GoogleFonts.inter(fontSize: responsive.fontSize(16)),
         decoration: InputDecoration(
           labelText: label,
+          labelStyle: GoogleFonts.inter(fontSize: responsive.fontSize(16)),
           suffixIcon: IconButton(
-            icon: Icon(obscurePassword ? Icons.visibility_off : Icons.visibility, size: 20),
+            icon: Icon(
+              obscurePassword ? Icons.visibility_off : Icons.visibility,
+              size: responsive.fontSize(20),
+            ),
             onPressed: () {
               setState(() {
                 obscurePassword = !obscurePassword;

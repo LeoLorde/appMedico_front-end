@@ -1,7 +1,5 @@
-import 'package:app_med/models/endereco_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:uuid/uuid.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<Map> createAppointment({

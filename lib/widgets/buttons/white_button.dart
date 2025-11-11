@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:app_med/utils/responsive_helper.dart';
 
 class WhiteButton extends StatelessWidget {
   final String label;
@@ -17,12 +18,17 @@ class WhiteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final responsive = ResponsiveHelper(context);
+
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(label, style: GoogleFonts.inter(fontSize: 20, color: Colors.black)),
+      child: Text(
+        label,
+        style: GoogleFonts.inter(fontSize: responsive.fontSize(20), color: Colors.black),
+      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
-        minimumSize: Size(width, height),
+        minimumSize: Size(responsive.width(width), responsive.height(height)),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
           side: BorderSide(width: 1, color: Colors.black),

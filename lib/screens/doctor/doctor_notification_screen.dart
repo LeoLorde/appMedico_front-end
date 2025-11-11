@@ -113,7 +113,7 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
                             ? '${notif.dataMarcada!.day.toString().padLeft(2, '0')}/${notif.dataMarcada!.month.toString().padLeft(2, '0')}, ${notif.dataMarcada!.hour.toString().padLeft(2, '0')}:${notif.dataMarcada!.minute.toString().padLeft(2, '0')}'
                             : '',
                         motivo: notif.motivo ?? '',
-                        imageUrl: "assets/images/logo.png",
+                        imageUrl: "assets/images/user_icon.png",
                         onAccept: () async {
                           final prefs = await SharedPreferences.getInstance();
                           final storedToken = prefs.getString('access_token') ?? "";

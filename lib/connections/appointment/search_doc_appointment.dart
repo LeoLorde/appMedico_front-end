@@ -3,25 +3,31 @@ import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:app_med/models/client_model.dart';
+import 'package:app_med/models/appointment_with_client.dart';
 
-Future<List<AppointmentModel>> fetchAgendas(String id) async {
+Future<List<AppointmentWithClient>> fetchAgendas(String token) async {
   try {
     final response = await http.get(
       Uri.parse("${dotenv.env['API_URL']}/appointment/doc"),
-      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ${id}'},
+      headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer $token'},
     );
 
     if (response.statusCode != 200) {
-      debugPrint('${response.statusCode}');
+      debugPrint('Erro: ${response.statusCode}');
       return [];
     }
 
-    final List<dynamic> jsonData = json.decode(response.body)['data'];
-    final data = jsonData.map((e) => e as Map<String, dynamic>).toList();
+    final body = json.decode(response.body);
+    final List<dynamic> jsonData = body['data'];
 
-    return data.map((item) => AppointmentModel.fromMap(item)).toList();
+    return jsonData.map((item) {
+      final appointment = AppointmentModel.fromMap(item['appointment']);
+      final client = ClientModel.fromMap(item['client']);
+      return AppointmentWithClient(appointment: appointment, client: client);
+    }).toList();
   } catch (e) {
-    print("Erro ao buscar agendamentos: $e");
+    debugPrint("Erro ao buscar agendamentos: $e");
     return [];
   }
 }

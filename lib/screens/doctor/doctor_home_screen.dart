@@ -8,6 +8,7 @@ import 'package:app_med/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:app_med/connections/appointment/search_doc_appointment.dart';
+import 'package:app_med/models/appointment_with_client.dart';
 import 'package:app_med/connections/doctor/get_self_doctor.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +18,7 @@ class DoctorHomeScreen extends StatefulWidget {
 }
 
 class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
-  late Future<List<AppointmentModel>> futureAgendas;
+  late Future<List<AppointmentWithClient>> futureAgendas;
   String? _username;
 
   @override
@@ -106,7 +107,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: FutureBuilder<List<AppointmentModel>>(
+        child: FutureBuilder<List<AppointmentWithClient>>(
           future: futureAgendas,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -136,14 +137,15 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
                     itemCount: agendas.length,
                     itemBuilder: (context, index) {
                       final item = agendas[index];
-                      final data = item.toMap();
-                      final horaFormatada = _formatarData(data["data_marcada"]);
+                      final appt = item.appointment;
+                      final client = item.client;
+                      final horaFormatada = _formatarData(appt.dataMarcada.toString());
 
                       return ScheduleCard(
-                        nome: data["motivo"] ?? 'Sem motivo',
-                        tipo: data["client_id"] ?? '',
+                        nome: client.username ?? 'Sem motivo',
+                        tipo: appt.motivo ?? '',
                         hora: horaFormatada,
-                        status: data["is_confirmed"]?.toString() ?? 'pending',
+                        status: appt.isConfirmed.toString(),
                         imageUrl: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
                       );
                     },

@@ -36,11 +36,11 @@ class _DoctorRegisterScreen3State extends State<DoctorRegisterScreen3> {
     doctor.senha = senhaConfController.text;
     final response = await createDoctor(doctor);
     final response2 = await loginDoctor(email: emailController.text, senha: senhaController.text);
-    if (response.containsKey("access_token")) {
+    if (response2.containsKey("access_token")) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login funcionou")));
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('access_token', response['access_token']);
-      await prefs.setString('username', response['user']['username']);
+      await prefs.setString('access_token', response2['access_token']);
+      print("SEU NÃO FUDEU");
     }
     Navigator.push(context, MaterialPageRoute(builder: (context) => FinishProfileScreen()));
     print(response);

@@ -16,5 +16,7 @@ Future<Map> loginDoctor({required String email, required String senha}) async {
   print("CREATING FCM TOKEN");
   await createFCM(decoded["access_token"]);
   print("FCM TOKEN CREATED");
+  print("RESPONSE: ");
+  print(decoded);
   return {"access_token": decoded["access_token"], "user": decoded["user"]};
 }

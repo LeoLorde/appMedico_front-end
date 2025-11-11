@@ -27,13 +27,13 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     _loadDoctorData();
   }
 
-  /// 🔹 Busca os dados do médico autenticado via API
   Future<void> _loadDoctorData() async {
     final prefs = await SharedPreferences.getInstance();
     final storedToken = prefs.getString('access_token') ?? "";
-
+    print(storedToken);
     try {
       final doctor = await getSelfDoctor(token: storedToken);
+      print(doctor);
       setState(() {
         _username = doctor.username;
       });

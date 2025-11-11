@@ -74,7 +74,10 @@ class _DoctorConfigurationScreenState extends State<DoctorConfigurationScreen> {
             SizedBox(height: 20),
             Row(
               children: [
-                CircleAvatar(radius: 40, backgroundImage: AssetImage('assets/images/logo.png')),
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage('assets/images/user_icon.png'),
+                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(

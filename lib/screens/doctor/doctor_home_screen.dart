@@ -34,7 +34,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
     print(storedToken);
     try {
       final doctor = await getSelfDoctor(token: storedToken);
-      print(doctor);
+      print(doctor.toMap());
       setState(() {
         _username = doctor.username;
       });

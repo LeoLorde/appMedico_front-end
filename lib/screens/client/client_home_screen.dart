@@ -1,4 +1,5 @@
 import 'package:app_med/connections/appointment/client_appointment.dart';
+import 'package:app_med/connections/client/get_self_client.dart';
 import 'package:app_med/models/appointment_model.dart';
 import 'package:app_med/screens/client/client_calendar_screen.dart';
 import 'package:app_med/screens/client/client_configuration_screen.dart';
@@ -21,15 +22,24 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadUsername();
+    _loadClientData();
   }
 
-  Future<void> _loadUsername() async {
+  Future<void> _loadClientData() async {
     final prefs = await SharedPreferences.getInstance();
-    final storedName = prefs.getString('username') ?? "Usuário";
-    setState(() {
-      _username = storedName;
-    });
+    final storedToken = prefs.getString('access_token') ?? "";
+
+    try {
+      final client = await getSelfClient(token: storedToken);
+      setState(() {
+        _username = client.username;
+      });
+    } catch (e) {
+      print('Erro ao buscar dados do cliente: $e');
+      setState(() {
+        _username = "Usuário";
+      });
+    }
   }
 
   Future<List<AppointmentModel>> fetchAppointments() async {
@@ -69,7 +79,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       backgroundColor: Colors.white,
       appBar: HomeAppBar(
         greeting: 'Bom dia!',
-        userName: _username ?? "Usuário",
+        userName: _username ?? "Carregando...",
         avatarImage: 'assets/images/user_icon.png',
         onSearchTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => SearchDoctorScreen()));
@@ -83,7 +93,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
           }
 
           if (snapshot.hasError) {
-            return Center(child: Text('Erro ao carregar consultas 😅'));
+            return Center(child: Text('Erro ao carregar consultas'));
           }
 
           final appointments = snapshot.data ?? [];
@@ -96,7 +106,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             itemBuilder: (context, index) {
               final appt = appointments[index];
               return DoctorCard(
-                doctor: appt.doctor!, // tu pode passar o modelo real do doutor depois
+                doctor: appt.doctor!,
                 imageUrl: 'assets/images/logo.png',
                 hour:
                     '${appt.dataMarcada?.hour.toString().padLeft(2, '0')}:${appt.dataMarcada?.minute.toString().padLeft(2, '0')}',

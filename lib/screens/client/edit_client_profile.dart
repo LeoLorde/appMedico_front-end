@@ -81,7 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       radius: responsive.width(55),
                       backgroundImage: _imageFile != null
                           ? FileImage(_imageFile!)
-                          : const AssetImage('assets/images/logo.png') as ImageProvider,
+                          : const AssetImage('assets/images/user_icon.png') as ImageProvider,
                     ),
                     Container(
                       width: responsive.width(110),

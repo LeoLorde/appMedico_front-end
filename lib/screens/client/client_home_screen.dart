@@ -70,7 +70,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
       appBar: HomeAppBar(
         greeting: 'Bom dia!',
         userName: _username ?? "Usuário",
-        avatarImage: 'assets/images/logo.png',
+        avatarImage: 'assets/images/user_icon.png',
         onSearchTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => SearchDoctorScreen()));
         },

@@ -92,7 +92,7 @@ class _DoctorHomeScreenState extends State<DoctorHomeScreen> {
       appBar: AuthBlackAppBar(
         title: 'Bom dia!',
         subtitle: _username ?? 'Carregando...',
-        avatarImage: 'assets/images/logo.png',
+        avatarImage: 'assets/images/user_icon.png',
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),

@@ -42,7 +42,7 @@ class _ClientConfigurationScreenState extends State<ClientConfigurationScreen> {
       appBar: AuthBlackAppBar(
         title: 'Configurações',
         subtitle: 'Gerencie sua conta',
-        avatarImage: 'assets/images/logo.png',
+        avatarImage: 'assets/images/user_icon.png',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -52,7 +52,10 @@ class _ClientConfigurationScreenState extends State<ClientConfigurationScreen> {
             SizedBox(height: 20),
             Row(
               children: [
-                CircleAvatar(radius: 40, backgroundImage: AssetImage('assets/images/logo.png')),
+                CircleAvatar(
+                  radius: 40,
+                  backgroundImage: AssetImage('assets/images/user_icon.png'),
+                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(

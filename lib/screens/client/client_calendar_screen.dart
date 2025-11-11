@@ -84,7 +84,7 @@ class _ClientCalendarScreenState extends State<ClientCalendarScreen> {
       appBar: AuthBlackAppBar(
         title: 'Calendário',
         subtitle: 'Veja seus compromissos',
-        avatarImage: 'assets/images/logo.png',
+        avatarImage: 'assets/images/user_icon.png',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

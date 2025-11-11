@@ -40,7 +40,7 @@ class _ClientNotificationScreenState extends State<ClientNotificationScreen> {
       appBar: AuthBlackAppBar(
         title: 'Notificações',
         subtitle: 'Fique ligado',
-        avatarImage: 'assets/images/logo.png',
+        avatarImage: 'assets/images/user_icon.png',
       ),
       body: ListView(
         children: [

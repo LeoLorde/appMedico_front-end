@@ -64,7 +64,7 @@ class _DoctorConfigurationScreenState extends State<DoctorConfigurationScreen> {
       appBar: AuthBlackAppBar(
         title: 'Configurações',
         subtitle: 'Gerencie sua conta',
-        avatarImage: 'assets/images/logo.png',
+        avatarImage: 'assets/images/user_icon.png',
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),

@@ -74,7 +74,7 @@ class _DoctorNotificationScreenState extends State<DoctorNotificationScreen> {
       appBar: AuthBlackAppBar(
         title: 'Solicitações',
         subtitle: 'Solicitações de consulta',
-        avatarImage: 'assets/images/logo.png',
+        avatarImage: 'assets/images/user_icon.png',
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),

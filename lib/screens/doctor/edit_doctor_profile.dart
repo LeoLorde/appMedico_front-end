@@ -101,7 +101,7 @@ class _EditDoctorProfileState extends State<EditDoctorProfile> {
                     radius: 55,
                     backgroundImage: _imageFile != null
                         ? FileImage(_imageFile!)
-                        : const AssetImage('assets/images/logo.png') as ImageProvider,
+                        : const AssetImage('assets/images/user_icon.png') as ImageProvider,
                   ),
                   Container(
                     width: 110,

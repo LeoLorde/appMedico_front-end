@@ -1,4 +1,5 @@
 import 'package:app_med/models/doctor_model.dart';
+import 'package:app_med/widgets/buttons/black_button.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -147,29 +148,32 @@ class _EditDoctorProfileState extends State<EditDoctorProfile> {
             ),
 
             const SizedBox(height: 24),
-            _buildTimePickerField("Início do Expediente", startController),
-            _buildTimePickerField("Fim do Expediente", endController),
-            _buildTimePickerField("Início do Almoço", lunchStartController),
-            _buildTimePickerField("Fim do Almoço", lunchEndController),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(child: _buildTimePickerField("Início do Expediente", startController)),
+                    const SizedBox(width: 16),
+                    Expanded(child: _buildTimePickerField("Fim do Expediente", endController)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildTimePickerField("Início do Almoço", lunchStartController),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(child: _buildTimePickerField("Fim do Almoço", lunchEndController)),
+                  ],
+                ),
+              ],
+            ),
 
             const SizedBox(height: 28),
             SizedBox(
               width: double.infinity,
               height: 48,
-              child: ElevatedButton(
-                onPressed: () {
-                  // salvar aqui
-                  print("Nome: ${nameController.text}");
-                  print("Dias: $selectedDays");
-                  print("Início: ${startController.text} - Fim: ${endController.text}");
-                  print("Almoço: ${lunchStartController.text} - ${lunchEndController.text}");
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: const Text("Salvar", style: TextStyle(color: Colors.white, fontSize: 16)),
-              ),
+              child: BlackButton(label: 'Salvar', onPressed: () {}),
             ),
           ],
         ),
@@ -185,7 +189,7 @@ class _EditDoctorProfileState extends State<EditDoctorProfile> {
         decoration: InputDecoration(
           labelText: label,
           suffixIcon: const Icon(Icons.edit, size: 20),
-          border: const UnderlineInputBorder(),
+          border: UnderlineInputBorder(),
         ),
       ),
     );

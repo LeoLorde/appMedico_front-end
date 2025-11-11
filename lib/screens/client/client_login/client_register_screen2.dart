@@ -36,7 +36,7 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
     confirmPasswordController.text = clientModel.senha ?? '';
   }
 
-  void _onRegisterPressed() async {
+  Future<void> _onRegisterPressed() async {
     if (passwordController.text != confirmPasswordController.text) {
       ScaffoldMessenger.of(
         context,
@@ -99,7 +99,12 @@ class _ClientRegisterScreen2State extends State<ClientRegisterScreen2> {
                 ),
 
                 const SizedBox(height: 25),
-                BlackButton(label: "Cadastrar", onPressed: _onRegisterPressed),
+                BlackButton(
+                  label: "Cadastrar",
+                  onPressed: () async {
+                    await _onRegisterPressed();
+                  },
+                ),
 
                 const SizedBox(height: 50),
                 LinkText(
